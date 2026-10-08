@@ -253,7 +253,7 @@
     </section>
 
     <section id="documentsSection" class="tab-content hidden transition-opacity duration-300">
-      <div id="documentsContainer" class="w-full"></div>
+      <div id="documentsContainer" class="w-full max-w-5xl mx-auto"></div>
     </section>
 
   </main>
@@ -372,7 +372,7 @@
   <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxGX_5M0ElDoepMQUHwhMrzVvrIG6A3ydiFRaZjUqfSjNgKef3zKiT_AqTgsXX3yuXf3A/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzl_iY9eZsYNcjdJwtxX1iNuS-pvublOpKHD0ZzKdVI1KmJ7MYy9FGfRn53d8iATUczdg/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
@@ -1000,32 +1000,30 @@
         for (let childName in node.children) {
           const child = node.children[childName];
           const fId = `folder-${folderIndex++}`;
-          const isRoot = depth === 0;
           
-          if (isRoot) html += `<div class="card p-5 md:p-7 border-l-4 border-l-indigo-500 shadow-xl mb-6 bg-white">`;
-          else html += `<div class="mb-4">`;
+          html += `<div class="relative w-full mb-3">`;
 
           html += `
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between ${isRoot ? 'bg-slate-50 p-4 rounded-xl' : 'bg-white border border-slate-200 p-3 rounded-xl shadow-sm'} hover:border-indigo-300 cursor-pointer transition-all group gap-3" onclick="toggleFolder('${fId}', 'icon-${fId}')">
-              <div class="flex items-center gap-3">
-                <div class="${isRoot ? 'w-12 h-12 text-2xl' : 'w-10 h-10 text-xl'} bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
-                  <i class="fas fa-folder text-amber-500"></i>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-slate-200/60 p-3 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] hover:border-indigo-300 hover:shadow-md cursor-pointer transition-all duration-300 group gap-3 relative z-10" onclick="toggleFolder('${fId}', 'icon-${fId}')">
+              <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 bg-[#fff8e6] rounded-xl flex items-center justify-center shrink-0">
+                  <i class="fas fa-folder text-[#ffb020] text-xl"></i>
                 </div>
-                <span class="font-extrabold text-slate-800 ${isRoot ? 'text-lg uppercase tracking-wider' : 'text-base'}">${child.name}</span>
+                <span class="font-bold text-slate-800 text-[15px] tracking-tight">${child.name}</span>
               </div>
               <div class="flex items-center gap-2">
                 ${state.isLoggedIn ? `
                   <div class="opacity-0 group-hover:opacity-100 flex gap-1 mr-2 transition-opacity">
-                     <button onclick="promptCreateFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-md bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center shadow-sm" title="Add Sub-folder Here"><i class="fas fa-folder-plus"></i></button>
-                     <button onclick="promptUpload('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center shadow-sm" title="Upload File Here"><i class="fas fa-cloud-upload-alt"></i></button>
-                     <button onclick="promptEditFolder('${child.path}', '${child.name}'); event.stopPropagation();" class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center shadow-sm" title="Rename Folder"><i class="fas fa-pen"></i></button>
-                     <button onclick="confirmDeleteFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-md bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center shadow-sm" title="Delete Folder"><i class="fas fa-trash"></i></button>
+                     <button onclick="promptCreateFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center transition" title="Add Sub-folder Here"><i class="fas fa-folder-plus"></i></button>
+                     <button onclick="promptUpload('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center transition" title="Upload File Here"><i class="fas fa-cloud-upload-alt"></i></button>
+                     <button onclick="promptEditFolder('${child.path}', '${child.name}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition" title="Rename Folder"><i class="fas fa-pen"></i></button>
+                     <button onclick="confirmDeleteFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center transition" title="Delete Folder"><i class="fas fa-trash"></i></button>
                   </div>
                 ` : ''}
-                <div class="p-1.5 bg-slate-100 rounded-md"><i id="icon-${fId}" class="fas fa-chevron-up text-slate-500 text-xs transition-transform"></i></div>
+                <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors"><i id="icon-${fId}" class="fas fa-chevron-up text-slate-400 text-xs"></i></div>
               </div>
             </div>
-            <div id="${fId}" class="mt-4 ${isRoot ? '' : 'ml-4 sm:ml-8 border-l-2 pl-4 border-slate-200'} transition-all duration-300">
+            <div id="${fId}" class="mt-3 ml-5 pl-5 sm:ml-8 sm:pl-8 border-l-2 border-slate-200/80 transition-all duration-300 relative">
               ${buildHtml(child, depth + 1)}
             </div>
           </div>`;
@@ -1033,18 +1031,18 @@
 
         const validFiles = node.files.filter(f => f.fileName !== '__folder_placeholder__');
         if (validFiles.length > 0) {
-          html += `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">`;
+          html += `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-4 mt-1">`;
           validFiles.forEach(f => {
             html += `
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("temp-") ? 'opacity-50' : ''}">
-                <a href="${f.url}" target="_blank" class="text-sm font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3">
-                  <div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-lg"></i></div>
+              <div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("temp-") ? 'opacity-50' : ''}">
+                <a href="${f.url}" target="_blank" class="text-[13px] font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3">
+                  <div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-base"></i></div>
                   <span class="truncate">${f.fileName} ${String(f.id).startsWith("temp-") ? '<span class="text-[9px] bg-amber-200 text-amber-800 px-1 ml-1 rounded uppercase">Syncing</span>' : ''}</span>
                 </a>
                 ${state.isLoggedIn ? `
                   <div class="flex gap-1.5 ml-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onclick="openEditModal('Documents', '${f.id}')" class="text-blue-600 p-2 hover:bg-blue-50 rounded-lg transition"><i class="fas fa-pen text-sm"></i></button>
-                    <button onclick="deleteItem('Documents', '${f.id}')" class="text-red-600 p-2 hover:bg-red-50 rounded-lg transition"><i class="fas fa-trash text-sm"></i></button>
+                    <button onclick="openEditModal('Documents', '${f.id}')" class="text-blue-600 p-1.5 hover:bg-blue-50 rounded-lg transition"><i class="fas fa-pen text-xs"></i></button>
+                    <button onclick="deleteItem('Documents', '${f.id}')" class="text-red-600 p-1.5 hover:bg-red-50 rounded-lg transition"><i class="fas fa-trash text-xs"></i></button>
                   </div>
                 ` : ''}
               </div>`;
@@ -1059,7 +1057,7 @@
       if(state.isLoggedIn) {
          finalHtml += `<div class="mb-6 flex justify-end"><button onclick="promptCreateFolder('')" class="btn-primary py-2.5 px-5 text-sm shadow-lg flex items-center gap-2"><i class="fas fa-folder-plus"></i> Create New Main Root Folder</button></div>`;
       }
-      finalHtml += buildHtml(root, 0);
+      finalHtml += `<div class="bg-white/50 backdrop-blur-sm p-4 sm:p-6 rounded-3xl border border-slate-200 shadow-sm">${buildHtml(root, 0)}</div>`;
       el.innerHTML = finalHtml;
     }
 
