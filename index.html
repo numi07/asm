@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ASM Packall Export Industry Ltd.</title>
+  
+  <!-- Web App Manifest (PWA) dynamically injected below -->
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=ASM&background=4f46e5&color=fff&size=192">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #f4f7f9; color: #0f172a; min-height: 100vh; overscroll-behavior-y: none; }
+    
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s ease;
+    }
+    .card:hover { box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08); transform: translateY(-3px); border-color: #cbd5e1; }
+    
+    .input-style {
+      background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155;
+      width: 100%; padding: 12px 16px; border-radius: 12px; font-size: 14px; outline: none; transition: all 0.2s;
+    }
+    .input-style:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); background-color: #ffffff; }
+    
+    .btn-primary {
+      background-color: #4f46e5; color: white; padding: 12px 24px; border-radius: 12px; 
+      font-weight: 600; font-size: 14px; transition: all 0.2s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background-color: #4338ca; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25); }
+    
+    .btn-outline {
+      background-color: white; border: 1px solid #cbd5e1; color: #475569; 
+      padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: all 0.2s; cursor: pointer;
+    }
+    .btn-outline:hover { background-color: #f1f5f9; color: #0f172a; border-color: #94a3b8; }
+
+    .tab-container { background: #e2e8f0; padding: 6px; border-radius: 16px; display: inline-flex; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; justify-content: center; }
+    .tab-btn { padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; transition: all 0.3s; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .tab-btn.active { background: #ffffff; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .tab-btn:hover:not(.active) { color: #0f172a; }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center font-bold text-xl text-white shadow-lg shrink-0">
+          ASM
+        </div>
+        <div class="hidden sm:block">
+          <h1 class="text-xl font-bold text-slate-800 tracking-tight leading-tight">ASM Packall Export Industry Ltd.</h1>
+          <p class="text-[11px] text-slate-500 font-semibold tracking-wide">(100% Export Oriented Industry)</p>
+        </div>
+        <div class="block sm:hidden">
+          <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">ASM Packall</h1>
+          <div class="flex items-center gap-1.5 mt-0.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDotMobile"></span>
+            <span id="syncStatusMobile" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Live</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="hidden sm:flex items-center gap-2 mr-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDot"></span>
+          <span id="syncStatus" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Live Sync</span>
+        </div>
+        <button onclick="handleAdminAuthBtn()" class="btn-outline flex items-center gap-2 px-3 py-2 sm:px-5 sm:py-2.5">
+          <i class="fas fa-shield-alt text-indigo-500" id="adminAuthIcon"></i> 
+          <span id="adminAuthText" class="hidden sm:inline">Admin Access</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Tabs -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 w-full text-center">
+    <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Enterprise Cloud Database</h2>
+    <p class="text-slate-600 text-sm sm:text-base mb-8 max-w-2xl mx-auto font-medium">
+      <i class="fas fa-map-marker-alt text-red-500 mr-1.5"></i> Address: Plot No: 59 & 60, Mongla EPZ, Mongla, Bagerhat.
+    </p>
+
+    <div class="tab-container w-full sm:w-auto">
+      <button onclick="switchTab('gallery')" id="tab-gallery" class="tab-btn active flex-1 sm:flex-none justify-center"><i class="fas fa-image text-indigo-500"></i> Gallery</button>
+      <button onclick="switchTab('employees')" id="tab-employees" class="tab-btn flex-1 sm:flex-none justify-center"><i class="fas fa-users text-blue-500"></i> Employees</button>
+      <button onclick="switchTab('documents')" id="tab-documents" class="tab-btn flex-1 sm:flex-none justify-center"><i class="fas fa-folder text-amber-500"></i> Docs</button>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-24 flex-1 w-full">
+    
+    <!-- Admin Control Panel -->
+    <div id="adminPanel" class="hidden mb-12">
+      <div class="card p-6 sm:p-8 border-t-4 border-t-indigo-500 shadow-xl bg-gradient-to-b from-white to-slate-50/50">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-5 mb-8">
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-3">
+            <div class="p-2.5 bg-indigo-100 rounded-xl"><i class="fas fa-sliders-h text-indigo-600"></i></div>
+            Data Entry Panel
+          </h3>
+          <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-1.5 rounded-full font-bold shadow-sm">Admin Active</span>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          <!-- Upload Document/Gallery Form -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h4 class="text-sm font-bold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-indigo-400"></i> File & Media Upload</h4>
+            <form onsubmit="handleFileUpload(event)" class="space-y-4">
+              <select id="uploadCategory" onchange="toggleUploadCategoryFields()" class="input-style font-medium">
+                <option value="document">Document (Folder Structured)</option>
+                <option value="gallery">Gallery (Photo/Video)</option>
+              </select>
+
+              <!-- Dynamic Folder Selection -->
+              <div id="docFolderFields" class="space-y-4">
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <select id="mainFolderSelect" class="input-style w-full" onchange="checkNewFolder('mainFolderSelect', 'mainFolderInput')"></select>
+                  <input type="text" id="mainFolderInput" class="input-style hidden w-full" placeholder="New Folder Name">
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <select id="subFolderSelect" class="input-style w-full" onchange="checkNewFolder('subFolderSelect', 'subFolderInput')"></select>
+                  <input type="text" id="subFolderInput" class="input-style hidden w-full" placeholder="New Sub-folder Name">
+                </div>
+              </div>
+
+              <div id="galleryTitleField" class="hidden">
+                <input type="text" id="galleryTitleInput" placeholder="Enter Photo/Video Title" class="input-style">
+              </div>
+              
+              <div class="p-3 border border-slate-200 border-dashed rounded-xl bg-slate-50">
+                <input type="file" id="filePicker" required class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:font-bold cursor-pointer transition">
+              </div>
+              <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast</button>
+            </form>
+          </div>
+
+          <!-- Add Employee Form -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h4 class="text-sm font-bold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-user-plus text-blue-400"></i> Add Employee Profile</h4>
+            <form onsubmit="handleAddEmployee(event)" class="space-y-4">
+              <input type="text" id="empName" required placeholder="Full Name" class="input-style">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input type="text" id="empDesignation" required placeholder="Designation" class="input-style">
+                <input type="text" id="empPhone" placeholder="Phone Number" class="input-style">
+              </div>
+              <input type="email" id="empEmail" placeholder="Email Address" class="input-style">
+              <div class="p-3 border border-slate-200 border-dashed rounded-xl bg-slate-50">
+                <span class="text-xs text-slate-500 block mb-2 font-medium ml-1">Profile Photo (Optional)</span>
+                <input type="file" id="empPhotoFile" accept="image/*" class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:font-bold cursor-pointer transition">
+              </div>
+              <button type="submit" id="empSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base"><i class="fas fa-user-check mr-2"></i> Save Profile</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Sections -->
+    <section id="gallerySection" class="tab-content transition-opacity duration-300">
+      <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section id="employeesSection" class="tab-content hidden transition-opacity duration-300">
+      <div id="employeesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section id="documentsSection" class="tab-content hidden transition-opacity duration-300">
+      <div id="documentsContainer" class="space-y-8"></div>
+    </section>
+
+  </main>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity">
+    <div class="card p-8 max-w-sm w-full relative shadow-2xl">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
+      <div class="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-6 text-indigo-600 shadow-inner mx-auto"><i class="fas fa-lock text-3xl"></i></div>
+      <div class="text-center">
+        <h3 class="text-2xl font-bold text-slate-800 mb-2">Admin Security</h3>
+        <p class="text-sm text-slate-500 mb-8">Enter your secure password to access the management dashboard.</p>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)">
+        <input type="password" id="adminPasswordInput" required placeholder="••••••••" class="input-style mb-5 text-center tracking-[0.5em] text-xl font-bold py-4">
+        <button type="submit" id="loginSubmitBtn" class="btn-primary w-full py-3.5 text-base shadow-lg">Authenticate</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Universal Edit Modal -->
+  <div id="editModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="card p-8 max-w-md w-full relative border-t-4 border-t-indigo-500 shadow-2xl">
+      <button onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
+      <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4" id="editModalTitle">Edit Record</h3>
+      <form onsubmit="submitEditForm(event)" id="editForm" class="space-y-4"></form>
+    </div>
+  </div>
+
+  <!-- Media Lightbox Modal (For Direct Web Viewing) -->
+  <div id="lightboxModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-10">
+      <button onclick="closeLightbox()" class="text-white bg-white/10 hover:bg-white/25 p-3 sm:p-4 rounded-full backdrop-blur-md transition shadow-lg flex items-center justify-center">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+    </div>
+    <div id="lightboxContent" class="w-full max-w-6xl flex items-center justify-center h-full max-h-[85vh] relative">
+      <!-- Media will be injected here -->
+    </div>
+  </div>
+
+  <!-- PWA & Service Worker Setup -->
+  <script>
+    const manifestData = {
+      "name": "ASM Packall Export",
+      "short_name": "ASM Packall",
+      "start_url": ".",
+      "display": "standalone",
+      "background_color": "#f4f7f9",
+      "theme_color": "#4f46e5",
+      "icons": [{ "src": "https://ui-avatars.com/api/?name=ASM&background=4f46e5&color=fff&size=512", "sizes": "512x512", "type": "image/png" }]
+    };
+    const manifestUrl = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifestData));
+    document.head.insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestUrl}">`);
+
+    if ('serviceWorker' in navigator) {
+      const swCode = `self.addEventListener('install', (e) => self.skipWaiting()); self.addEventListener('activate', (e) => self.clients.claim()); self.addEventListener('fetch', (e) => {});`;
+      const swBlob = new Blob([swCode], {type: 'application/javascript'});
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+    }
+  </script>
+
+  <!-- JS Logic Core -->
+  <script>
+    // আপনার নতুন Web App URL এখানে দিন
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzXdG8uM4fhKiN95NJAp9RxF2U8sHMr-Nc9Mkgwobp-Cv7BrVmxE0bf1A8GfsslFsHRxQ/exec";
+
+    let state = {
+      adminPassword: null, isLoggedIn: false,
+      data: { employees: [], gallery: [], documents: [] },
+      editContext: null
+    };
+
+    // --- Fast Data Loading & Auto-Logout Fix ---
+    function initApp() {
+      const savedPass = sessionStorage.getItem('asm_admin_pass');
+      if (savedPass) {
+        state.isLoggedIn = true;
+        state.adminPassword = savedPass;
+        updateAdminUI();
+      }
+
+      const cached = localStorage.getItem('asm_data_cache');
+      if (cached) {
+        state.data = JSON.parse(cached);
+        renderAllSections();
+        updateFolderDropdowns();
+      }
+      fetchCloudData(); 
+    }
+
+    async function fetchCloudData() {
+      const dot = document.getElementById('syncDot');
+      const text = document.getElementById('syncStatus');
+      const dotMob = document.getElementById('syncDotMobile');
+      
+      dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-ping";
+      dotMob.className = "w-2 h-2 rounded-full bg-amber-500 animate-ping";
+      text.innerText = "Syncing...";
+      
+      try {
+        const response = await fetch(`${GAS_API_URL}?action=getData`);
+        const result = await response.json();
+        
+        if (result.status === "success") {
+          const newData = { employees: result.employees, gallery: result.gallery, documents: result.documents };
+          if (JSON.stringify(state.data) !== JSON.stringify(newData)) {
+            state.data = newData;
+            localStorage.setItem('asm_data_cache', JSON.stringify(state.data)); 
+            renderAllSections();
+            updateFolderDropdowns();
+          }
+        }
+      } catch (err) { 
+        console.error("Fetch Error:", err); 
+      } finally {
+        dot.className = "w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]";
+        dotMob.className = "w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]";
+        text.innerText = "Live Sync";
+      }
+    }
+
+    async function postToCloud(payload) {
+      const response = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) });
+      return await response.json();
+    }
+
+    // --- High Speed Image Compression Engine ---
+    function compressImage(file, maxWidth = 1920) {
+      return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith('image/')) {
+          // If not an image (PDF/Video), use standard Base64
+          if(!file) return resolve(null);
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          return;
+        }
+        // If image, compress it for 5x faster upload
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width, height = img.height;
+            if (width > maxWidth) { height = Math.round(height * (maxWidth / width)); width = maxWidth; }
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.8)); // Compressed JPEG
+          };
+        };
+        reader.onerror = reject;
+      });
+    }
+
+    // --- Dynamic Folder Dropdown Logic ---
+    function updateFolderDropdowns() {
+      const docs = state.data.documents;
+      const mainSet = new Set(), subSet = new Set();
+      docs.forEach(d => { if(d.folderName) mainSet.add(d.folderName); if(d.subFolderName) subSet.add(d.subFolderName); });
+      
+      let mainHtml = `<option value="">-- Select Main Folder --</option>`;
+      mainSet.forEach(f => mainHtml += `<option value="${f}">${f}</option>`);
+      mainHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Folder</option>`;
+      document.getElementById('mainFolderSelect').innerHTML = mainHtml;
+
+      let subHtml = `<option value="">-- Select Sub Folder --</option>`;
+      subSet.forEach(f => subHtml += `<option value="${f}">${f}</option>`);
+      subHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Sub Folder</option>`;
+      document.getElementById('subFolderSelect').innerHTML = subHtml;
+    }
+
+    function checkNewFolder(selectId, inputId) {
+      const select = document.getElementById(selectId);
+      const input = document.getElementById(inputId);
+      if (select.value === "NEW") {
+        input.classList.remove('hidden'); input.required = true;
+      } else {
+        input.classList.add('hidden'); input.value = ""; input.required = false;
+      }
+    }
+
+    // --- Authentication ---
+    function handleAdminAuthBtn() {
+      if (state.isLoggedIn) { 
+        state.isLoggedIn = false; state.adminPassword = null; sessionStorage.removeItem('asm_admin_pass'); 
+        updateAdminUI(); renderAllSections(); 
+      } else { 
+        document.getElementById('loginModal').classList.remove('hidden'); 
+      }
+    }
+    function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+    
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const pass = document.getElementById('adminPasswordInput').value;
+      const btn = document.getElementById('loginSubmitBtn');
+      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Authenticating...`;
+      
+      const res = await postToCloud({ action: "login", password: pass });
+      if (res.success) {
+        state.isLoggedIn = true; state.adminPassword = pass;
+        sessionStorage.setItem('asm_admin_pass', pass); 
+        closeLoginModal(); updateAdminUI(); renderAllSections();
+        document.getElementById('adminPasswordInput').value = "";
+      } else { alert(res.message); }
+      btn.innerText = "Authenticate";
+    }
+
+    function updateAdminUI() {
+      document.getElementById('adminPanel').classList.toggle('hidden', !state.isLoggedIn);
+      document.getElementById('adminAuthText').innerText = state.isLoggedIn ? "Logout" : "Admin Access";
+      document.getElementById('adminAuthIcon').className = state.isLoggedIn ? "fas fa-sign-out-alt text-red-500" : "fas fa-shield-alt text-indigo-500";
+    }
+
+    // --- Form Uploads ---
+    function toggleUploadCategoryFields() {
+      const isDoc = document.getElementById('uploadCategory').value === 'document';
+      document.getElementById('docFolderFields').classList.toggle('hidden', !isDoc);
+      document.getElementById('galleryTitleField').classList.toggle('hidden', isDoc);
+    }
+
+    async function handleFileUpload(e) {
+      e.preventDefault();
+      const file = document.getElementById('filePicker').files[0];
+      const btn = document.getElementById('uploadSubmitBtn');
+      btn.disabled = true; btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Compressing & Uploading...`;
+      
+      const category = document.getElementById('uploadCategory').value;
+      const mainSel = document.getElementById('mainFolderSelect').value;
+      const subSel = document.getElementById('subFolderSelect').value;
+      const finalMain = mainSel === 'NEW' ? document.getElementById('mainFolderInput').value : mainSel;
+      const finalSub = subSel === 'NEW' ? document.getElementById('subFolderInput').value : subSel;
+
+      const payload = {
+        action: "uploadFile", password: state.adminPassword,
+        fileName: file.name, mimeType: file.type, 
+        base64Data: await compressImage(file), // Using fast compression
+        type: category, folderPath: category === 'document' ? `${finalMain}/${finalSub}` : 'gallery',
+        folderName: finalMain, subFolderName: finalSub,
+        title: document.getElementById('galleryTitleInput').value || file.name, 
+        fileType: file.type.startsWith('video/') ? 'video' : 'photo'
+      };
+
+      const res = await postToCloud(payload);
+      if(res.success) { e.target.reset(); fetchCloudData(); } else alert(res.message);
+      btn.disabled = false; btn.innerHTML = `<i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast`;
+    }
+
+    async function handleAddEmployee(e) {
+      e.preventDefault();
+      const btn = document.getElementById('empSubmitBtn');
+      btn.disabled = true; btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving...`;
+      const file = document.getElementById('empPhotoFile').files[0];
+
+      const payload = {
+        action: "saveEmployee", password: state.adminPassword,
+        name: document.getElementById('empName').value, designation: document.getElementById('empDesignation').value,
+        phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value,
+        photoBase64: await compressImage(file), // Using fast compression
+        photoMimeType: file ? file.type : null, photoFileName: file ? file.name : null
+      };
+
+      const res = await postToCloud(payload);
+      if(res.success) { e.target.reset(); fetchCloudData(); } else alert(res.message);
+      btn.disabled = false; btn.innerHTML = `<i class="fas fa-user-check mr-2"></i> Save Profile`;
+    }
+
+    async function deleteItem(sheetName, id) {
+      if (!confirm("Are you sure you want to delete this record?")) return;
+      const res = await postToCloud({ action: "deleteItem", password: state.adminPassword, sheetName, id });
+      if(res.success) fetchCloudData(); else alert(res.message);
+    }
+
+    // --- Direct Lightbox (Photo/Video Viewer) ---
+    function openLightbox(url, type) {
+      const modal = document.getElementById('lightboxModal');
+      const content = document.getElementById('lightboxContent');
+      let fileId = "";
+      const match = url.match(/id=([^&]+)/);
+      if (match) fileId = match[1];
+
+      if (type === 'video') {
+        content.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" class="w-full h-[60vh] sm:h-[80vh] max-w-5xl rounded-2xl shadow-2xl border border-slate-700/50" allow="autoplay; fullscreen" frameborder="0"></iframe>`;
+      } else {
+        content.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-none select-none">`;
+      }
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.getElementById('lightboxContent').innerHTML = '';
+      }, 300);
+    }
+
+    // --- Edit System ---
+    function openEditModal(sheetName, id) {
+      const modal = document.getElementById('editModal');
+      const form = document.getElementById('editForm');
+      document.getElementById('editModalTitle').innerHTML = `<i class="fas fa-edit text-indigo-500"></i> Edit ${sheetName}`;
+      
+      let html = '';
+      if(sheetName === 'Employees') {
+        const item = state.data.employees.find(x => x.id == id);
+        state.editContext = { sheetName, id };
+        html = `
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">Name</label>
+          <input type="text" id="editName" value="${item.name}" class="input-style mb-3">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">Designation</label>
+          <input type="text" id="editDesignation" value="${item.designation}" class="input-style mb-3">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">Phone</label>
+          <input type="text" id="editPhone" value="${item.phone}" class="input-style mb-3">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">Email</label>
+          <input type="text" id="editEmail" value="${item.email}" class="input-style mb-4">
+          <div class="p-3 border border-slate-300 border-dashed rounded-xl bg-slate-50 mb-4">
+            <span class="text-xs font-medium text-slate-600 block mb-2">Update Photo (Leave empty to keep old)</span>
+            <input type="file" id="editFile" accept="image/*" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-700 file:font-semibold">
+          </div>`;
+      } else if (sheetName === 'Gallery') {
+        const item = state.data.gallery.find(x => x.id == id);
+        state.editContext = { sheetName, id };
+        html = `
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">File Title</label>
+          <input type="text" id="editTitle" value="${item.title}" class="input-style mb-4">`;
+      } else if (sheetName === 'Documents') {
+        const item = state.data.documents.find(x => x.id == id);
+        state.editContext = { sheetName, id, folderName: item.folderName, subFolderName: item.subFolderName };
+        html = `
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1 block mb-1">Document Name</label>
+          <input type="text" id="editFileName" value="${item.fileName}" class="input-style mb-4">
+          <div class="p-3 border border-slate-300 border-dashed rounded-xl bg-slate-50 mb-4">
+            <span class="text-xs font-medium text-slate-600 block mb-2">Upload New File (Leave empty to keep old)</span>
+            <input type="file" id="editFile" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-700 file:font-semibold">
+          </div>`;
+      }
+      html += `<button type="submit" id="editSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base">Save Changes</button>`;
+      form.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+
+    function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
+
+    async function submitEditForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById('editSubmitBtn');
+      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving...`; btn.disabled = true;
+
+      const payload = { action: "editItem", password: state.adminPassword, sheetName: state.editContext.sheetName, id: state.editContext.id };
+      const fileInput = document.getElementById('editFile');
+      const file = fileInput ? fileInput.files[0] : null;
+
+      if (state.editContext.sheetName === 'Employees') {
+        payload.name = document.getElementById('editName').value;
+        payload.designation = document.getElementById('editDesignation').value;
+        payload.phone = document.getElementById('editPhone').value;
+        payload.email = document.getElementById('editEmail').value;
+        if(file) { payload.photoBase64 = await compressImage(file); payload.photoMimeType = file.type; payload.photoFileName = file.name; }
+      } else if (state.editContext.sheetName === 'Gallery') {
+        payload.title = document.getElementById('editTitle').value;
+      } else if (state.editContext.sheetName === 'Documents') {
+        payload.fileName = document.getElementById('editFileName').value;
+        if(file) { 
+          payload.fileBase64 = await fileToBase64(file); payload.fileMimeType = file.type; payload.fileName = file.name;
+          payload.folderName = state.editContext.folderName; payload.subFolderName = state.editContext.subFolderName;
+        }
+      }
+
+      const res = await postToCloud(payload);
+      if (res.success) { closeEditModal(); fetchCloudData(); } else alert(res.message);
+      btn.innerText = "Save Changes"; btn.disabled = false;
+    }
+
+    // --- Rendering UI ---
+    function renderAllSections() { renderGallery(); renderEmployees(); renderDocuments(); }
+
+    function getAdminActions(sheetName, id) {
+      if (!state.isLoggedIn) return '';
+      return `<div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 p-1.5 rounded-xl shadow-lg border border-slate-200 backdrop-blur-md transform translate-y-1 group-hover:translate-y-0 z-20">
+        <button onclick="openEditModal('${sheetName}', '${id}')" class="text-blue-600 hover:bg-blue-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-pen text-sm"></i></button>
+        <button onclick="deleteItem('${sheetName}', '${id}')" class="text-red-600 hover:bg-red-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-trash text-sm"></i></button>
+      </div>`;
+    }
+
+    function renderGallery() {
+      const el = document.getElementById('galleryGrid');
+      if (!state.data.gallery.length) return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fas fa-images text-5xl text-indigo-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No media found in gallery.</p></div>`;
+      el.innerHTML = state.data.gallery.map(i => `
+        <div class="card overflow-hidden group flex flex-col relative cursor-pointer" onclick="openLightbox('${i.url}', '${i.type}')">
+          <div class="h-56 bg-slate-100 relative border-b border-slate-100 flex items-center justify-center overflow-hidden">
+            ${i.type === 'video' 
+              ? `<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition duration-300 z-10 flex items-center justify-center"><i class="fas fa-play text-white text-5xl drop-shadow-xl transform group-hover:scale-110 transition duration-300"></i></div><img src="https://ui-avatars.com/api/?name=Video+File&background=e2e8f0&color=64748b&size=512" class="w-full h-full object-cover opacity-50">` 
+              : `<img src="${i.url}" loading="lazy" referrerpolicy="no-referrer" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">`}
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col justify-end h-1/2">
+            <h4 class="font-bold text-white text-base truncate mb-1 shadow-sm" title="${i.title}">${i.title}</h4>
+            <span class="text-indigo-300 text-xs font-semibold tracking-wider uppercase"><i class="fas ${i.type === 'video' ? 'fa-video' : 'fa-image'} mr-1"></i> ${i.type}</span>
+          </div>
+          ${getAdminActions('Gallery', i.id)}
+        </div>`).join('');
+    }
+
+    function renderEmployees() {
+      const el = document.getElementById('employeesGrid');
+      if (!state.data.employees.length) return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fas fa-user-friends text-5xl text-blue-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No employees found.</p></div>`;
+      el.innerHTML = state.data.employees.map(e => `
+        <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white">
+          <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-white shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:rotate-3 transition duration-300">
+            ${e.photo ? `<img src="${e.photo}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=User&background=eef2ff&color=4f46e5&size=150';" class="w-full h-full object-cover">` : `<i class="fas fa-user text-slate-400 text-4xl"></i>`}
+          </div>
+          <h4 class="font-extrabold text-slate-900 text-xl mb-1.5">${e.name}</h4>
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-4 py-1.5 rounded-full mb-6 inline-block shadow-sm">${e.designation}</span>
+          <div class="w-full text-left text-sm text-slate-600 space-y-3 mt-auto border-t border-slate-100 pt-5">
+            ${e.phone ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-phone text-blue-500"></i></div> <span class="font-semibold text-slate-700">${e.phone}</span></p>` : ''}
+            ${e.email ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition truncate" title="${e.email}"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-envelope text-indigo-500"></i></div> <span class="font-medium truncate">${e.email}</span></p>` : ''}
+          </div>
+          ${getAdminActions('Employees', e.id)}
+        </div>`).join('');
+    }
+
+    function renderDocuments() {
+      const el = document.getElementById('documentsContainer');
+      const docs = state.data.documents;
+      if (!docs.length) return el.innerHTML = `<div class="py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fas fa-folder-open text-5xl text-amber-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No documents found.</p></div>`;
+      
+      const tree = {};
+      docs.forEach(d => {
+        if (!tree[d.folderName]) tree[d.folderName] = {};
+        if (!tree[d.folderName][d.subFolderName]) tree[d.folderName][d.subFolderName] = [];
+        tree[d.folderName][d.subFolderName].push(d);
+      });
+
+      let html = '';
+      for (let folder in tree) {
+        html += `<div class="card p-6 md:p-8 border-l-4 border-l-indigo-500 shadow-md mb-8 bg-white"><h4 class="text-slate-900 font-extrabold mb-6 flex items-center uppercase tracking-wider text-base"><div class="w-12 h-12 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center mr-4 shadow-sm"><i class="fas fa-folder text-amber-500 text-2xl"></i></div> ${folder}</h4><div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">`;
+        for (let sub in tree[folder]) {
+          html += `<div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200"><h5 class="text-indigo-600 text-sm font-bold mb-4 flex items-center"><i class="far fa-folder-open mr-2.5 text-indigo-400 text-lg"></i> /${sub}</h5><div class="space-y-3">`;
+          tree[folder][sub].forEach(f => {
+            html += `<div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative">
+                <a href="${f.url}" target="_blank" class="text-sm font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3"><div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-lg"></i></div> <span class="truncate">${f.fileName}</span></a>
+                ${state.isLoggedIn ? `<div class="flex gap-1.5 ml-3 opacity-0 group-hover:opacity-100 transition-opacity"><button onclick="openEditModal('Documents', '${f.id}')" class="text-blue-600 p-2 hover:bg-blue-50 rounded-lg transition"><i class="fas fa-pen text-sm"></i></button><button onclick="deleteItem('Documents', '${f.id}')" class="text-red-600 p-2 hover:bg-red-50 rounded-lg transition"><i class="fas fa-trash text-sm"></i></button></div>` : ''}
+              </div>`;
+          });
+          html += `</div></div>`;
+        }
+        html += `</div></div>`;
+      }
+      el.innerHTML = html;
+    }
+
+    // Tabs
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(e => {
+        e.classList.add('hidden'); e.classList.remove('opacity-100');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const target = document.getElementById(`${tab}Section`);
+      target.classList.remove('hidden');
+      setTimeout(() => target.classList.add('opacity-100'), 50);
+      document.getElementById(`tab-${tab}`).classList.add('active');
+    }
+
+    // Initialize the App
+    initApp();
+  </script>
+</body>
+</html>
