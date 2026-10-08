@@ -7,66 +7,105 @@
   
   <!-- Web App Manifest (PWA) dynamically injected below -->
   <meta name="theme-color" content="#4f46e5">
-  <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=ASM&background=4f46e5&color=fff&size=192">
+  <link rel="apple-touch-icon" href="images/logo.png">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     * { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: #f4f7f9; color: #0f172a; min-height: 100vh; overscroll-behavior-y: none; }
+    
+    body { 
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,0.03) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.03) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.03) 0px, transparent 50%);
+      color: #0f172a; min-height: 100vh; overscroll-behavior-y: none; 
+    }
+    
+    .glass-header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.4);
+    }
     
     .card {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .card:hover { box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.08); transform: translateY(-3px); border-color: #cbd5e1; }
+    .card:hover { 
+      box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.15); 
+      transform: translateY(-5px) scale(1.01); 
+      border-color: rgba(199, 210, 254, 0.8); 
+      background: rgba(255, 255, 255, 0.98);
+    }
     
     .input-style {
-      background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155;
-      width: 100%; padding: 12px 16px; border-radius: 12px; font-size: 14px; outline: none; transition: all 0.2s;
+      background-color: rgba(248, 250, 252, 0.7); border: 1px solid #cbd5e1; color: #334155;
+      width: 100%; padding: 14px 18px; border-radius: 14px; font-size: 14px; outline: none; transition: all 0.3s ease;
     }
-    .input-style:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); background-color: #ffffff; }
+    .input-style:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15); background-color: #ffffff; }
     
     .btn-primary {
-      background-color: #4f46e5; color: white; padding: 12px 24px; border-radius: 12px; 
-      font-weight: 600; font-size: 14px; transition: all 0.2s; border: none; cursor: pointer;
+      background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      color: white; padding: 14px 28px; border-radius: 14px; 
+      font-weight: 600; font-size: 14px; transition: all 0.3s ease; border: none; cursor: pointer;
+      box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
     }
-    .btn-primary:hover { background-color: #4338ca; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25); }
+    .btn-primary:hover { 
+      background-image: linear-gradient(135deg, #4338ca 0%, #2563eb 100%); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.23); 
+    }
     
     .btn-outline {
-      background-color: white; border: 1px solid #cbd5e1; color: #475569; 
-      padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: all 0.2s; cursor: pointer;
+      background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px);
+      border: 1px solid #cbd5e1; color: #475569; 
+      padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: all 0.3s; cursor: pointer;
     }
-    .btn-outline:hover { background-color: #f1f5f9; color: #0f172a; border-color: #94a3b8; }
+    .btn-outline:hover { background-color: #ffffff; color: #0f172a; border-color: #94a3b8; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-1px); }
 
-    .tab-container { background: #e2e8f0; padding: 6px; border-radius: 16px; display: inline-flex; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; justify-content: center; }
-    .tab-btn { padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; transition: all 0.3s; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .tab-btn.active { background: #ffffff; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .tab-btn:hover:not(.active) { color: #0f172a; }
+    .tab-container { background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4); padding: 8px; border-radius: 20px; display: inline-flex; gap: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); flex-wrap: wrap; justify-content: center; }
+    .tab-btn { padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 600; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .tab-btn.active { background: linear-gradient(135deg, #4f46e5, #3b82f6); color: #ffffff; box-shadow: 0 8px 16px -4px rgba(79, 70, 229, 0.4); transform: scale(1.05); }
+    .tab-btn.active i { color: #ffffff !important; }
+    .tab-btn:hover:not(.active) { color: #0f172a; background: rgba(255,255,255,0.8); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
 
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* New CSS for Slider Buttons */
+    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; z-index: 110; backdrop-filter: blur(8px); }
+    .slider-btn:hover { background: rgba(255,255,255,0.35); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+    .prev-btn { left: 10px; sm:left: 20px; }
+    .next-btn { right: 10px; sm:right: 20px; }
   </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
   <!-- Header -->
-  <header class="bg-white/90 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+  <header class="glass-header sticky top-0 z-40 shadow-sm transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center font-bold text-xl text-white shadow-lg shrink-0">
-          ASM
+        
+        <!-- Updated Logo Section with Github local path support -->
+        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white flex items-center justify-center shadow-md shrink-0 overflow-hidden border border-slate-100 p-1.5 transition transform hover:scale-105">
+          <img src="images/logo.png" alt="ASM Logo" class="w-full h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.outerHTML='<div class=\\'w-full h-full bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-xl flex items-center justify-center font-bold text-xl text-white\\'>ASM</div>';">
         </div>
+        
         <div class="hidden sm:block">
-          <h1 class="text-xl font-bold text-slate-800 tracking-tight leading-tight">ASM Packall Export Industry Ltd.</h1>
-          <p class="text-[11px] text-slate-500 font-semibold tracking-wide">(100% Export Oriented Industry)</p>
+          <h1 class="text-xl font-extrabold text-slate-800 tracking-tight leading-tight">ASM Packall Export Industry Ltd.</h1>
+          <p class="text-[11px] text-slate-500 font-semibold tracking-wide uppercase mt-0.5">(100% Export Oriented Industry)</p>
         </div>
         <div class="block sm:hidden">
           <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">ASM Packall</h1>
@@ -90,9 +129,9 @@
   </header>
 
   <!-- Hero & Tabs -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 w-full text-center">
-    <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">Enterprise Cloud Database</h2>
-    <p class="text-slate-600 text-sm sm:text-base mb-8 max-w-2xl mx-auto font-medium">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full text-center">
+    <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 tracking-tight mb-5 drop-shadow-sm">Enterprise Cloud Database</h2>
+    <p class="text-slate-600 text-sm sm:text-base mb-10 max-w-2xl mx-auto font-medium">
       <i class="fas fa-map-marker-alt text-red-500 mr-1.5"></i> Address: Plot No: 59 & 60, Mongla EPZ, Mongla, Bagerhat.
     </p>
 
@@ -107,8 +146,9 @@
     
     <!-- Admin Control Panel -->
     <div id="adminPanel" class="hidden mb-12">
-      <div class="card p-6 sm:p-8 border-t-4 border-t-indigo-500 shadow-xl bg-gradient-to-b from-white to-slate-50/50">
-        <div class="flex justify-between items-center border-b border-slate-200 pb-5 mb-8">
+      <div class="card p-6 sm:p-8 border-t-4 border-t-indigo-500 shadow-2xl bg-gradient-to-b from-white to-slate-50/50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500"></div>
+        <div class="flex justify-between items-center border-b border-slate-200 pb-5 mb-8 mt-2">
           <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-3">
             <div class="p-2.5 bg-indigo-100 rounded-xl"><i class="fas fa-sliders-h text-indigo-600"></i></div>
             Data Entry Panel
@@ -119,8 +159,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           <!-- Upload Document/Gallery Form -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <h4 class="text-sm font-bold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-indigo-400"></i> File & Media Upload</h4>
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg">
+            <h4 class="text-sm font-extrabold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-indigo-500"></i> File & Media Upload</h4>
             <form onsubmit="handleFileUpload(event)" class="space-y-4">
               <select id="uploadCategory" onchange="toggleUploadCategoryFields()" class="input-style font-medium">
                 <option value="document">Document (Folder Structured)</option>
@@ -141,18 +181,20 @@
 
               <div id="galleryTitleField" class="hidden">
                 <input type="text" id="galleryTitleInput" placeholder="Enter Photo/Video Title" class="input-style">
+                <p class="text-[11px] text-slate-500 mt-1.5 font-semibold"><i class="fas fa-info-circle text-indigo-400"></i> গ্যালারির ক্ষেত্রে একসাথে একাধিক ছবি আপলোড করা যাবে।</p>
               </div>
               
-              <div class="p-3 border border-slate-200 border-dashed rounded-xl bg-slate-50">
-                <input type="file" id="filePicker" required class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:font-bold cursor-pointer transition">
+              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition hover:bg-slate-100 hover:border-indigo-300">
+                <!-- multiple attribute added for gallery support -->
+                <input type="file" id="filePicker" multiple required class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:font-bold cursor-pointer transition">
               </div>
-              <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast</button>
+              <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast</button>
             </form>
           </div>
 
           <!-- Add Employee Form -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-            <h4 class="text-sm font-bold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-user-plus text-blue-400"></i> Add Employee Profile</h4>
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg">
+            <h4 class="text-sm font-extrabold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-user-plus text-blue-500"></i> Add Employee Profile</h4>
             <form onsubmit="handleAddEmployee(event)" class="space-y-4">
               <input type="text" id="empName" required placeholder="Full Name" class="input-style">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -160,11 +202,11 @@
                 <input type="text" id="empPhone" placeholder="Phone Number" class="input-style">
               </div>
               <input type="email" id="empEmail" placeholder="Email Address" class="input-style">
-              <div class="p-3 border border-slate-200 border-dashed rounded-xl bg-slate-50">
-                <span class="text-xs text-slate-500 block mb-2 font-medium ml-1">Profile Photo (Optional)</span>
-                <input type="file" id="empPhotoFile" accept="image/*" class="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:font-bold cursor-pointer transition">
+              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition hover:bg-slate-100 hover:border-blue-300">
+                <span class="text-xs text-slate-500 block mb-2 font-bold ml-1">Profile Photo (Optional)</span>
+                <input type="file" id="empPhotoFile" accept="image/*" class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:font-bold cursor-pointer transition">
               </div>
-              <button type="submit" id="empSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base"><i class="fas fa-user-check mr-2"></i> Save Profile</button>
+              <button type="submit" id="empSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-user-check mr-2"></i> Save Profile</button>
             </form>
           </div>
 
@@ -188,23 +230,23 @@
   </main>
 
   <!-- Login Modal -->
-  <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity">
-    <div class="card p-8 max-w-sm w-full relative shadow-2xl">
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity">
+    <div class="card p-8 max-w-sm w-full relative shadow-2xl border-t-4 border-t-indigo-500">
       <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
-      <div class="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-6 text-indigo-600 shadow-inner mx-auto"><i class="fas fa-lock text-3xl"></i></div>
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 border border-indigo-200 flex items-center justify-center mb-6 text-indigo-600 shadow-inner mx-auto"><i class="fas fa-lock text-3xl"></i></div>
       <div class="text-center">
         <h3 class="text-2xl font-bold text-slate-800 mb-2">Admin Security</h3>
-        <p class="text-sm text-slate-500 mb-8">Enter your secure password to access the management dashboard.</p>
+        <p class="text-sm text-slate-500 mb-8 font-medium">Enter your secure password to access the management dashboard.</p>
       </div>
       <form onsubmit="handleLoginSubmit(event)">
-        <input type="password" id="adminPasswordInput" required placeholder="••••••••" class="input-style mb-5 text-center tracking-[0.5em] text-xl font-bold py-4">
-        <button type="submit" id="loginSubmitBtn" class="btn-primary w-full py-3.5 text-base shadow-lg">Authenticate</button>
+        <input type="password" id="adminPasswordInput" required placeholder="••••••••" class="input-style mb-6 text-center tracking-[0.5em] text-xl font-bold py-4">
+        <button type="submit" id="loginSubmitBtn" class="btn-primary w-full py-4 text-base shadow-lg">Authenticate</button>
       </form>
     </div>
   </div>
 
   <!-- Universal Edit Modal -->
-  <div id="editModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+  <div id="editModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
     <div class="card p-8 max-w-md w-full relative border-t-4 border-t-indigo-500 shadow-2xl">
       <button onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
       <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4" id="editModalTitle">Edit Record</h3>
@@ -214,12 +256,16 @@
 
   <!-- Media Lightbox Modal (For Direct Web Viewing) -->
   <div id="lightboxModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
-    <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-10">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-20">
       <button onclick="closeLightbox()" class="text-white bg-white/10 hover:bg-white/25 p-3 sm:p-4 rounded-full backdrop-blur-md transition shadow-lg flex items-center justify-center">
         <i class="fas fa-times text-xl"></i>
       </button>
     </div>
-    <div id="lightboxContent" class="w-full max-w-6xl flex items-center justify-center h-full max-h-[85vh] relative">
+    <!-- Slider Buttons -->
+    <button id="prevBtn" onclick="prevSlide(event)" class="slider-btn prev-btn hidden"><i class="fas fa-chevron-left text-xl"></i></button>
+    <button id="nextBtn" onclick="nextSlide(event)" class="slider-btn next-btn hidden"><i class="fas fa-chevron-right text-xl"></i></button>
+    
+    <div id="lightboxContent" class="w-full max-w-6xl flex items-center justify-center h-full max-h-[85vh] relative z-10">
       <!-- Media will be injected here -->
     </div>
   </div>
@@ -233,7 +279,7 @@
       "display": "standalone",
       "background_color": "#f4f7f9",
       "theme_color": "#4f46e5",
-      "icons": [{ "src": "https://ui-avatars.com/api/?name=ASM&background=4f46e5&color=fff&size=512", "sizes": "512x512", "type": "image/png" }]
+      "icons": [{ "src": "images/logo.png", "sizes": "512x512", "type": "image/png" }]
     };
     const manifestUrl = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifestData));
     document.head.insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestUrl}">`);
@@ -248,7 +294,7 @@
   <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzXdG8uM4fhKiN95NJAp9RxF2U8sHMr-Nc9Mkgwobp-Cv7BrVmxE0bf1A8GfsslFsHRxQ/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxSi0kA69WpqUCABK4WrUaJWnrna2bZTXNEe7jPPyS9Ey_9kgUEkpWLohRTfV6WoA00JQ/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
@@ -342,6 +388,16 @@
       });
     }
 
+    // Helper for Document Editing file issue
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+      });
+    }
+
     // --- Dynamic Folder Dropdown Logic ---
     function updateFolderDropdowns() {
       const docs = state.data.documents;
@@ -411,9 +467,9 @@
 
     async function handleFileUpload(e) {
       e.preventDefault();
-      const file = document.getElementById('filePicker').files[0];
+      const files = document.getElementById('filePicker').files;
       const btn = document.getElementById('uploadSubmitBtn');
-      btn.disabled = true; btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Compressing & Uploading...`;
+      btn.disabled = true; 
       
       const category = document.getElementById('uploadCategory').value;
       const mainSel = document.getElementById('mainFolderSelect').value;
@@ -421,18 +477,30 @@
       const finalMain = mainSel === 'NEW' ? document.getElementById('mainFolderInput').value : mainSel;
       const finalSub = subSel === 'NEW' ? document.getElementById('subFolderInput').value : subSel;
 
-      const payload = {
-        action: "uploadFile", password: state.adminPassword,
-        fileName: file.name, mimeType: file.type, 
-        base64Data: await compressImage(file), // Using fast compression
-        type: category, folderPath: category === 'document' ? `${finalMain}/${finalSub}` : 'gallery',
-        folderName: finalMain, subFolderName: finalSub,
-        title: document.getElementById('galleryTitleInput').value || file.name, 
-        fileType: file.type.startsWith('video/') ? 'video' : 'photo'
-      };
+      let uploadedCount = 0;
+      // Loop for Multiple Upload Support
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Compressing & Uploading ${i + 1}/${files.length}...`;
+        
+        let titleVal = document.getElementById('galleryTitleInput').value;
+        if(titleVal && files.length > 1) titleVal = `${titleVal} (${i + 1})`;
 
-      const res = await postToCloud(payload);
-      if(res.success) { e.target.reset(); fetchCloudData(); } else alert(res.message);
+        const payload = {
+          action: "uploadFile", password: state.adminPassword,
+          fileName: file.name, mimeType: file.type, 
+          base64Data: await compressImage(file), // Using fast compression
+          type: category, folderPath: category === 'document' ? `${finalMain}/${finalSub}` : 'gallery',
+          folderName: finalMain, subFolderName: finalSub,
+          title: titleVal || file.name, 
+          fileType: file.type.startsWith('video/') ? 'video' : 'photo'
+        };
+
+        const res = await postToCloud(payload);
+        if(res.success) uploadedCount++; else alert(res.message);
+      }
+
+      if(uploadedCount > 0) { e.target.reset(); fetchCloudData(); }
       btn.disabled = false; btn.innerHTML = `<i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast`;
     }
 
@@ -461,13 +529,22 @@
       if(res.success) fetchCloudData(); else alert(res.message);
     }
 
-    // --- Direct Lightbox (Photo/Video Viewer) ---
-    function openLightbox(url, type) {
+    // --- Direct Lightbox (Photo/Video Viewer with Slider) ---
+    let currentLightboxIndex = -1;
+
+    function openGalleryLightbox(index) {
+      currentLightboxIndex = index;
+      const item = state.data.gallery[index];
+      openLightbox(item.url, item.type, true);
+    }
+
+    function openLightbox(url, type, isGallery = false) {
       const modal = document.getElementById('lightboxModal');
       const content = document.getElementById('lightboxContent');
       let fileId = "";
       const match = url.match(/id=([^&]+)/);
       if (match) fileId = match[1];
+      else if(url.match(/d\/([^/]+)/)) fileId = url.match(/d\/([^/]+)/)[1];
 
       if (type === 'video') {
         content.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" class="w-full h-[60vh] sm:h-[80vh] max-w-5xl rounded-2xl shadow-2xl border border-slate-700/50" allow="autoplay; fullscreen" frameborder="0"></iframe>`;
@@ -475,6 +552,15 @@
         content.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-none select-none">`;
       }
       
+      // Handle slider controls visibility
+      if (isGallery && state.data.gallery.length > 1) {
+        document.getElementById('prevBtn').classList.remove('hidden');
+        document.getElementById('nextBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('prevBtn').classList.add('hidden');
+        document.getElementById('nextBtn').classList.add('hidden');
+      }
+
       modal.classList.remove('hidden');
       setTimeout(() => modal.classList.remove('opacity-0'), 10);
     }
@@ -485,7 +571,36 @@
       setTimeout(() => {
         modal.classList.add('hidden');
         document.getElementById('lightboxContent').innerHTML = '';
+        document.getElementById('prevBtn').classList.add('hidden');
+        document.getElementById('nextBtn').classList.add('hidden');
       }, 300);
+    }
+
+    function prevSlide(e) {
+      e.stopPropagation();
+      if(currentLightboxIndex > 0) openGalleryLightbox(currentLightboxIndex - 1);
+      else openGalleryLightbox(state.data.gallery.length - 1); // loop
+    }
+    
+    function nextSlide(e) {
+      e.stopPropagation();
+      if(currentLightboxIndex < state.data.gallery.length - 1) openGalleryLightbox(currentLightboxIndex + 1);
+      else openGalleryLightbox(0); // loop
+    }
+
+    // Expand/Collapse Folders logic
+    function toggleFolder(folderId, iconId) {
+      const folderDiv = document.getElementById(folderId);
+      const icon = document.getElementById(iconId);
+      if(folderDiv.classList.contains('hidden')) {
+        folderDiv.classList.remove('hidden');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      } else {
+        folderDiv.classList.add('hidden');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      }
     }
 
     // --- Edit System ---
@@ -571,16 +686,16 @@
     function getAdminActions(sheetName, id) {
       if (!state.isLoggedIn) return '';
       return `<div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 p-1.5 rounded-xl shadow-lg border border-slate-200 backdrop-blur-md transform translate-y-1 group-hover:translate-y-0 z-20">
-        <button onclick="openEditModal('${sheetName}', '${id}')" class="text-blue-600 hover:bg-blue-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-pen text-sm"></i></button>
-        <button onclick="deleteItem('${sheetName}', '${id}')" class="text-red-600 hover:bg-red-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-trash text-sm"></i></button>
+        <button onclick="openEditModal('${sheetName}', '${id}'); event.stopPropagation();" class="text-blue-600 hover:bg-blue-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-pen text-sm"></i></button>
+        <button onclick="deleteItem('${sheetName}', '${id}'); event.stopPropagation();" class="text-red-600 hover:bg-red-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-trash text-sm"></i></button>
       </div>`;
     }
 
     function renderGallery() {
       const el = document.getElementById('galleryGrid');
       if (!state.data.gallery.length) return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fas fa-images text-5xl text-indigo-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No media found in gallery.</p></div>`;
-      el.innerHTML = state.data.gallery.map(i => `
-        <div class="card overflow-hidden group flex flex-col relative cursor-pointer" onclick="openLightbox('${i.url}', '${i.type}')">
+      el.innerHTML = state.data.gallery.map((i, index) => `
+        <div class="card overflow-hidden group flex flex-col relative cursor-pointer border-0 shadow-lg" onclick="openGalleryLightbox(${index})">
           <div class="h-56 bg-slate-100 relative border-b border-slate-100 flex items-center justify-center overflow-hidden">
             ${i.type === 'video' 
               ? `<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition duration-300 z-10 flex items-center justify-center"><i class="fas fa-play text-white text-5xl drop-shadow-xl transform group-hover:scale-110 transition duration-300"></i></div><img src="https://ui-avatars.com/api/?name=Video+File&background=e2e8f0&color=64748b&size=512" class="w-full h-full object-cover opacity-50">` 
@@ -598,8 +713,8 @@
       const el = document.getElementById('employeesGrid');
       if (!state.data.employees.length) return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed"><i class="fas fa-user-friends text-5xl text-blue-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No employees found.</p></div>`;
       el.innerHTML = state.data.employees.map(e => `
-        <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white">
-          <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-white shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:rotate-3 transition duration-300">
+        <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white border-0 shadow-lg">
+          <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-white shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:-translate-y-2 group-hover:shadow-2xl transition duration-300">
             ${e.photo ? `<img src="${e.photo}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=User&background=eef2ff&color=4f46e5&size=150';" class="w-full h-full object-cover">` : `<i class="fas fa-user text-slate-400 text-4xl"></i>`}
           </div>
           <h4 class="font-extrabold text-slate-900 text-xl mb-1.5">${e.name}</h4>
@@ -625,8 +740,10 @@
       });
 
       let html = '';
+      let folderIndex = 0;
       for (let folder in tree) {
-        html += `<div class="card p-6 md:p-8 border-l-4 border-l-indigo-500 shadow-md mb-8 bg-white"><h4 class="text-slate-900 font-extrabold mb-6 flex items-center uppercase tracking-wider text-base"><div class="w-12 h-12 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center mr-4 shadow-sm"><i class="fas fa-folder text-amber-500 text-2xl"></i></div> ${folder}</h4><div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">`;
+        // Expand Collapse Added Here
+        html += `<div class="card p-6 md:p-8 border-l-4 border-l-indigo-500 shadow-xl mb-8 bg-white"><h4 class="text-slate-900 font-extrabold mb-6 flex items-center uppercase tracking-wider text-base cursor-pointer hover:bg-slate-50 p-2 -ml-2 rounded-xl transition select-none" onclick="toggleFolder('main-folder-${folderIndex}', 'main-icon-${folderIndex}')"><div class="w-12 h-12 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center mr-4 shadow-sm"><i class="fas fa-folder text-amber-500 text-2xl"></i></div> <span class="flex-1">${folder}</span> <div class="p-2 bg-slate-100 rounded-lg"><i id="main-icon-${folderIndex}" class="fas fa-chevron-up text-slate-500"></i></div></h4><div id="main-folder-${folderIndex}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 transition-all duration-300">`;
         for (let sub in tree[folder]) {
           html += `<div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200"><h5 class="text-indigo-600 text-sm font-bold mb-4 flex items-center"><i class="far fa-folder-open mr-2.5 text-indigo-400 text-lg"></i> /${sub}</h5><div class="space-y-3">`;
           tree[folder][sub].forEach(f => {
@@ -638,6 +755,7 @@
           html += `</div></div>`;
         }
         html += `</div></div>`;
+        folderIndex++;
       }
       el.innerHTML = html;
     }
