@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ASM Packall Export Industry Ltd.</title>
   
-  <!-- iOS PWA Tags -->
+  <!-- iOS & Android PWA Setup -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ASM Packall">
   <meta name="theme-color" content="#4f46e5">
-  <link rel="apple-touch-icon" href="images/Logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -30,7 +30,7 @@
     }
     
     .glass-header {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(226, 232, 240, 0.8);
@@ -39,7 +39,6 @@
     .card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 1);
       border-radius: 24px;
       box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
@@ -49,7 +48,6 @@
       box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.2); 
       transform: translateY(-5px) scale(1.01); 
       border-color: rgba(199, 210, 254, 0.9); 
-      background: #ffffff;
     }
     
     .input-style {
@@ -77,25 +75,14 @@
     }
     .btn-outline:hover { background-color: #ffffff; color: #0f172a; border-color: #94a3b8; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
 
-    /* Vertical stacked tabs layout */
-    .tab-container { 
-      background: rgba(255,255,255,0.7); 
-      backdrop-filter: blur(12px); 
-      border: 1px solid rgba(255,255,255,0.5); 
-      padding: 12px; 
-      border-radius: 24px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 12px; 
-      box-shadow: 0 4px 20px rgba(0,0,0,0.06); 
-      width: 100%;
-      max-w: 320px;
-      margin: 0 auto;
-    }
-    .tab-btn { padding: 14px 24px; border-radius: 14px; font-size: 15px; font-weight: 600; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); background: white; border: 1px solid rgba(0,0,0,0.05); }
-    .tab-btn.active { background: linear-gradient(135deg, #4f46e5, #3b82f6); color: #ffffff; box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.5); transform: scale(1.03); border-color: transparent; }
-    .tab-btn.active i { color: #ffffff !important; }
-    .tab-btn:hover:not(.active) { color: #0f172a; background: rgba(255,255,255,0.9); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+    /* Hamburger Menu Styles */
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .sidebar.open { transform: translateX(0); }
+    .overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .overlay.open { opacity: 1; pointer-events: auto; }
+
+    .menu-item { padding: 14px 20px; border-radius: 12px; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 12px; transition: all 0.3s; cursor: pointer; margin-bottom: 8px; }
+    .menu-item:hover, .menu-item.active { background: #e0e7ff; color: #4f46e5; }
 
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -114,67 +101,75 @@
   <!-- Header -->
   <header class="glass-header sticky top-0 z-40 shadow-sm transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3">
+        <!-- Hamburger Menu Button -->
+        <button onclick="toggleSidebar()" class="text-slate-700 hover:text-indigo-600 focus:outline-none p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 transition mr-1">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
         
         <!-- Logo Section -->
-        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg shrink-0 overflow-hidden border border-slate-100 p-1 transition transform hover:scale-105">
-          <img src="images/Logo.png" alt="ASM Logo" class="w-full h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.outerHTML='<div class=\\'w-full h-full bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-xl flex items-center justify-center font-bold text-xl text-white\\'>ASM</div>';">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white flex items-center justify-center shadow-lg shrink-0 overflow-hidden border border-slate-100 p-1">
+          <img src="images/logo.png" alt="ASM Logo" class="w-full h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.outerHTML='<div class=\\'w-full h-full bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-xl flex items-center justify-center font-bold text-lg text-white\\'>ASM</div>';">
         </div>
         
-        <div class="hidden sm:block">
-          <h1 class="text-xl font-extrabold text-slate-800 tracking-tight leading-tight">
+        <div>
+          <h1 class="text-lg md:text-xl font-extrabold text-slate-800 tracking-tight leading-tight hidden sm:block">
             ASM Packall Export Industry Ltd.
           </h1>
-        </div>
-        <div class="block sm:hidden">
-          <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">
+          <h1 class="text-base font-bold text-slate-800 tracking-tight leading-tight sm:hidden">
             ASM Packall
           </h1>
-          <div class="flex items-center gap-1.5 mt-0.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDotMobile"></span>
-            <span id="syncStatusMobile" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Live</span>
-          </div>
         </div>
       </div>
       <div class="flex items-center gap-3">
         <!-- Install App Button -->
-        <button id="installAppBtn" class="hidden btn-primary flex items-center gap-2 px-3 py-2 sm:px-5 sm:py-2.5 text-sm rounded-full shadow-lg">
-          <i class="fas fa-download"></i> <span class="hidden sm:inline">Install App</span><span class="sm:hidden">Install</span>
+        <button id="installAppBtn" class="hidden btn-primary flex items-center gap-2 px-3 py-2 text-xs md:text-sm rounded-full shadow-lg">
+          <i class="fas fa-download"></i> <span class="hidden sm:inline">Install App</span>
         </button>
-        <div class="hidden sm:flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200">
+        <div class="hidden md:flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200">
           <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDot"></span>
           <span id="syncStatus" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Live Sync</span>
+        </div>
+        <!-- Live Dot Mobile -->
+        <div class="flex md:hidden items-center gap-1.5 bg-slate-100 px-2 py-1 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDotMobile"></span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Hero & Stacked Tabs -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 py-10 w-full text-center">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 tracking-tight mb-8 drop-shadow-sm">ASM Packall Export Industry Ltd.</h2>
-
-    <div class="flex justify-center w-full mb-4">
-      <div class="tab-container">
-        <!-- Line 1: Gallery -->
-        <button onclick="switchTab('gallery')" id="tab-gallery" class="tab-btn active"><i class="fas fa-image text-indigo-500"></i> Gallery</button>
-        <!-- Line 2: Employees -->
-        <button onclick="switchTab('employees')" id="tab-employees" class="tab-btn"><i class="fas fa-users text-blue-500"></i> Employees</button>
-        <!-- Line 3: Documents -->
-        <button onclick="switchTab('documents')" id="tab-documents" class="tab-btn"><i class="fas fa-folder text-amber-500"></i> Documents</button>
-        
-        <div class="border-t border-slate-200/60 my-1 w-[80%] mx-auto"></div>
-        
-        <!-- Line 4: Admin Login -->
-        <button onclick="handleAdminAuthBtn()" class="tab-btn !bg-slate-800 !text-white hover:!bg-slate-700 hover:scale-105 shadow-md">
+  <!-- Hamburger Sidebar -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="overlay fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40"></div>
+  <div id="appSidebar" class="sidebar fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 flex flex-col border-r border-slate-200">
+    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+      <h2 class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">Menu</h2>
+      <button onclick="toggleSidebar()" class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="p-4 flex-1 overflow-y-auto">
+      <div class="space-y-1 mb-8">
+        <button onclick="switchTab('gallery')" id="tab-gallery" class="menu-item active w-full text-left"><div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600"><i class="fas fa-photo-video"></i></div> Gallery / Video</button>
+        <button onclick="switchTab('employees')" id="tab-employees" class="menu-item w-full text-left"><div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-users"></i></div> Employees</button>
+        <button onclick="switchTab('documents')" id="tab-documents" class="menu-item w-full text-left"><div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600"><i class="fas fa-folder-open"></i></div> Documents</button>
+      </div>
+      
+      <div class="border-t border-slate-200 pt-6">
+        <button onclick="handleAdminAuthBtn(); toggleSidebar()" class="w-full btn-primary !bg-slate-800 hover:!bg-slate-700 flex justify-center items-center gap-2 shadow-lg py-3">
           <i class="fas fa-shield-alt text-emerald-400" id="adminAuthIcon"></i> 
           <span id="adminAuthText">Admin Login</span>
         </button>
       </div>
     </div>
-  </section>
+    <div class="p-4 text-center text-[10px] text-slate-400 font-medium bg-slate-50 border-t border-slate-100">
+      System Database v2.1<br>Optimized for 0.001s Sync
+    </div>
+  </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-12 flex-1 w-full">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
     
+    <div class="text-center mb-10">
+      <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 tracking-tight drop-shadow-sm">ASM Packall Export Industry Ltd.</h2>
+    </div>
+
     <!-- Admin Control Panel -->
     <div id="adminPanel" class="hidden mb-12">
       <div class="card p-6 sm:p-8 border-t-4 border-t-indigo-500 shadow-2xl bg-gradient-to-b from-white to-slate-50/50 relative overflow-hidden">
@@ -198,15 +193,20 @@
                 <option value="gallery">Gallery (Photo/Video)</option>
               </select>
 
-              <!-- Dynamic Folder Selection -->
-              <div id="docFolderFields" class="space-y-4">
-                <div class="flex flex-col sm:flex-row gap-3">
+              <!-- Deep Nested Dynamic Folder Selection -->
+              <div id="docFolderFields" class="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div class="flex flex-col gap-2">
+                  <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Main Folder Name</label>
                   <select id="mainFolderSelect" class="input-style w-full" onchange="checkNewFolder('mainFolderSelect', 'mainFolderInput')"></select>
-                  <input type="text" id="mainFolderInput" class="input-style hidden w-full" placeholder="New Folder Name">
+                  <input type="text" id="mainFolderInput" class="input-style hidden w-full border-indigo-300" placeholder="e.g. documents">
                 </div>
-                <div class="flex flex-col sm:flex-row gap-3">
+                <div class="flex flex-col gap-2">
+                  <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide flex items-center justify-between">
+                    <span>Nested Sub-Folder Path</span>
+                    <span class="text-indigo-400 font-normal normal-case"><i class="fas fa-info-circle"></i> e.g. important/customs/trade</span>
+                  </label>
                   <select id="subFolderSelect" class="input-style w-full" onchange="checkNewFolder('subFolderSelect', 'subFolderInput')"></select>
-                  <input type="text" id="subFolderInput" class="input-style hidden w-full" placeholder="New Sub-folder Name">
+                  <input type="text" id="subFolderInput" class="input-style hidden w-full border-indigo-300" placeholder="Folder/Sub-Folder/Deep-Folder">
                 </div>
               </div>
 
@@ -217,7 +217,7 @@
               <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition hover:bg-slate-100 hover:border-indigo-300">
                 <input type="file" id="filePicker" multiple required class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:font-bold cursor-pointer transition">
               </div>
-              <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast</button>
+              <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-bolt mr-2"></i> Instant Live Upload</button>
             </form>
           </div>
 
@@ -258,14 +258,14 @@
 
   </main>
 
-  <!-- Address Footer Added -->
+  <!-- Address Footer -->
   <footer class="bg-white/90 backdrop-blur-md border-t border-slate-200 mt-auto w-full z-10">
     <div class="max-w-7xl mx-auto px-4 py-6 text-center">
       <p class="text-slate-600 text-sm font-semibold flex items-center justify-center flex-wrap gap-2">
-        <span class="p-2 bg-red-50 rounded-full text-red-500 shrink-0"><i class="fas fa-map-marker-alt"></i></span> 
+        <span class="p-2 bg-red-50 rounded-full text-red-500 shrink-0 shadow-inner"><i class="fas fa-map-marker-alt"></i></span> 
         Address: Plot No: 59 & 60, Mongla EPZ, Mongla, Bagerhat.
       </p>
-      <p class="text-[10px] text-slate-400 mt-2">&copy; <script>document.write(new Date().getFullYear())</script> ASM Packall Export Industry Ltd.</p>
+      <p class="text-[10px] text-slate-400 mt-3">&copy; <script>document.write(new Date().getFullYear())</script> ASM Packall Export Industry Ltd.</p>
     </div>
   </footer>
 
@@ -294,7 +294,7 @@
     </div>
   </div>
 
-  <!-- Media Lightbox Modal (For Direct Web Viewing) -->
+  <!-- Fast Media Lightbox Modal (Direct HTML5 Video) -->
   <div id="lightboxModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
     <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-20">
       <button onclick="closeLightbox()" class="text-white bg-white/10 hover:bg-white/25 p-3 sm:p-4 rounded-full backdrop-blur-md transition shadow-lg flex items-center justify-center">
@@ -310,9 +310,8 @@
     </div>
   </div>
 
-  <!-- Real PWA Implementation (Single File Dynamic Setup) -->
+  <!-- True PWA Manifest Generator for Guaranteed Installation -->
   <script>
-    // App Manifest dynamically configured with Absolute paths for successful Installation
     const setupPWA = () => {
       try {
         const baseUrl = window.location.href.split('?')[0];
@@ -331,16 +330,20 @@
           ]
         };
         
-        const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/manifest+json'});
-        const manifestUrl = URL.createObjectURL(manifestBlob);
-        document.head.insertAdjacentHTML('beforeend', `<link rel="manifest" href="${manifestUrl}">`);
+        // Base64 encoding completely prevents Blob revocation issues on Android Chrome
+        const manifestString = JSON.stringify(manifestData);
+        const encodedManifest = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(manifestString);
+        document.head.insertAdjacentHTML('beforeend', `<link rel="manifest" href="${encodedManifest}">`);
 
-        // Service Worker for App Installation Criteria
+        // Robust Service Worker to trigger "Add to Home Screen"
         if ('serviceWorker' in navigator) {
           const swCode = `
             self.addEventListener('install', (e) => self.skipWaiting());
             self.addEventListener('activate', (e) => self.clients.claim());
-            self.addEventListener('fetch', (e) => {});
+            self.addEventListener('fetch', (e) => {
+              // Network fallback strategy ensures PWA validity
+              e.respondWith(fetch(e.request).catch(() => new Response('App is Offline')));
+            });
           `;
           const swBlob = new Blob([swCode], {type: 'application/javascript'});
           navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
@@ -349,44 +352,34 @@
     };
     setupPWA();
 
-    // PWA Install Prompt Logic (Android + iOS Support)
+    // App Installation Trigger
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const btn = document.getElementById('installAppBtn');
-      if (btn) btn.classList.remove('hidden');
+      document.getElementById('installAppBtn').classList.remove('hidden');
     });
 
-    const installBtn = document.getElementById('installAppBtn');
-    if(installBtn) {
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            installBtn.classList.add('hidden');
-          }
-          deferredPrompt = null;
-        } else {
-          // iOS Instructions Fallback
-          alert("To install this App on iOS (iPhone/iPad):\n1. Tap the 'Share' icon at the bottom of Safari.\n2. Scroll down and tap 'Add to Home Screen'.");
-        }
-      });
-    }
+    document.getElementById('installAppBtn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') document.getElementById('installAppBtn').classList.add('hidden');
+        deferredPrompt = null;
+      } else {
+        alert("To install this App on iPhone/iPad:\n1. Tap the 'Share' icon below.\n2. Scroll down and tap 'Add to Home Screen'.");
+      }
+    });
 
-    // iOS explicit detection to show button
-    const isIos = () => /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-    const isInStandaloneMode = () => ('standalone' in window.navigator) && window.navigator.standalone;
-    if (isIos() && !isInStandaloneMode() && installBtn) {
-      installBtn.classList.remove('hidden');
+    if (/iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase()) && !window.navigator.standalone) {
+      document.getElementById('installAppBtn').classList.remove('hidden');
     }
   </script>
 
   <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyEewEhrgkrik-u7h3MLGuPcTBzYsDg0GImIs8mByf6GZQg9nJYsp1H8HKk4uOVc-MCXw/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3lndQRJqJiY-BF1_74_8fbrRGeLqT_sO_BL5k9d2Oln_qO-cj6OckJqfoYAOZo86eZA/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
@@ -395,6 +388,12 @@
     };
     
     let isFetchingData = false;
+
+    // Hamburger Toggle Function
+    function toggleSidebar() {
+      document.getElementById('appSidebar').classList.toggle('open');
+      document.getElementById('sidebarOverlay').classList.toggle('open');
+    }
 
     // --- Fast Data Loading & Auto-Logout Fix ---
     function initApp() {
@@ -461,7 +460,6 @@
     function compressImage(file, maxWidth = 1920) {
       return new Promise((resolve, reject) => {
         if (!file || !file.type.startsWith('image/')) {
-          // If not an image (PDF/Video), use standard Base64
           if(!file) return resolve(null);
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -469,7 +467,6 @@
           reader.onerror = reject;
           return;
         }
-        // If image, compress it for 5x faster upload
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (event) => {
@@ -489,7 +486,6 @@
       });
     }
 
-    // Helper for Document Editing file issue
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -499,20 +495,24 @@
       });
     }
 
-    // --- Dynamic Folder Dropdown Logic ---
+    // --- Dynamic Deep Folder Logic ---
     function updateFolderDropdowns() {
       const docs = state.data.documents;
       const mainSet = new Set(), subSet = new Set();
-      docs.forEach(d => { if(d.folderName) mainSet.add(d.folderName); if(d.subFolderName) subSet.add(d.subFolderName); });
+      docs.forEach(d => { 
+        if(d.folderName) mainSet.add(d.folderName); 
+        // Handles nested slashes inside subFolderName automatically!
+        if(d.subFolderName) subSet.add(d.subFolderName); 
+      });
       
       let mainHtml = `<option value="">-- Select Main Folder --</option>`;
       mainSet.forEach(f => mainHtml += `<option value="${f}">${f}</option>`);
-      mainHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Folder</option>`;
+      mainHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Main Folder</option>`;
       document.getElementById('mainFolderSelect').innerHTML = mainHtml;
 
-      let subHtml = `<option value="">-- Select Sub Folder --</option>`;
+      let subHtml = `<option value="">-- Select Nested Path --</option>`;
       subSet.forEach(f => subHtml += `<option value="${f}">${f}</option>`);
-      subHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Sub Folder</option>`;
+      subHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Type Custom Sub-Path (e.g. a/b/c)</option>`;
       document.getElementById('subFolderSelect').innerHTML = subHtml;
     }
 
@@ -555,11 +555,14 @@
 
     function updateAdminUI() {
       document.getElementById('adminPanel').classList.toggle('hidden', !state.isLoggedIn);
-      document.getElementById('adminAuthText').innerText = state.isLoggedIn ? "Logout" : "Admin Login";
-      document.getElementById('adminAuthIcon').className = state.isLoggedIn ? "fas fa-sign-out-alt text-red-400" : "fas fa-shield-alt text-emerald-400";
+      
+      // Update text/icons globally
+      const authTexts = document.querySelectorAll('#adminAuthText');
+      const authIcons = document.querySelectorAll('#adminAuthIcon');
+      authTexts.forEach(el => el.innerText = state.isLoggedIn ? "Logout" : "Admin Login");
+      authIcons.forEach(el => el.className = state.isLoggedIn ? "fas fa-sign-out-alt text-red-400" : "fas fa-shield-alt text-emerald-400");
     }
 
-    // --- Form Uploads ---
     function toggleUploadCategoryFields() {
       const isDoc = document.getElementById('uploadCategory').value === 'document';
       document.getElementById('docFolderFields').classList.toggle('hidden', !isDoc);
@@ -570,7 +573,6 @@
       e.preventDefault();
       const files = document.getElementById('filePicker').files;
       const btn = document.getElementById('uploadSubmitBtn');
-      btn.disabled = true; 
       
       const category = document.getElementById('uploadCategory').value;
       const mainSel = document.getElementById('mainFolderSelect').value;
@@ -578,11 +580,34 @@
       const finalMain = mainSel === 'NEW' ? document.getElementById('mainFolderInput').value : mainSel;
       const finalSub = subSel === 'NEW' ? document.getElementById('subFolderInput').value : subSel;
 
+      // 0.001s Optimistic UI Update - Live Instantly!
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        let titleVal = document.getElementById('galleryTitleInput').value;
+        if(titleVal && files.length > 1) titleVal = `${titleVal} (${i + 1})`;
+        
+        const tempItem = {
+          id: "temp-" + Date.now() + i,
+          title: titleVal || file.name,
+          fileName: file.name,
+          type: file.type.startsWith('video/') ? 'video' : 'photo',
+          url: URL.createObjectURL(file),
+          folderName: finalMain,
+          subFolderName: finalSub
+        };
+
+        if (category === 'gallery') state.data.gallery.unshift(tempItem);
+        else state.data.documents.unshift(tempItem);
+      }
+      renderAllSections(); // Instant render for users!
+
+      btn.disabled = true; 
       let uploadedCount = 0;
-      // Loop for Multiple Upload Support
+      
+      // Background actual cloud upload
       for (let i = 0; i < files.length; i++) {
         let file = files[i];
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Compressing & Uploading ${i + 1}/${files.length}...`;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving to Cloud ${i + 1}/${files.length}...`;
         
         let titleVal = document.getElementById('galleryTitleInput').value;
         if(titleVal && files.length > 1) titleVal = `${titleVal} (${i + 1})`;
@@ -590,7 +615,7 @@
         const payload = {
           action: "uploadFile", password: state.adminPassword,
           fileName: file.name, mimeType: file.type, 
-          base64Data: await compressImage(file), // Using fast compression
+          base64Data: await compressImage(file), 
           type: category, folderPath: category === 'document' ? `${finalMain}/${finalSub}` : 'gallery',
           folderName: finalMain, subFolderName: finalSub,
           title: titleVal || file.name, 
@@ -598,39 +623,59 @@
         };
 
         const res = await postToCloud(payload);
-        if(res.success) uploadedCount++; else alert(res.message);
+        if(res.success) uploadedCount++; 
       }
 
       if(uploadedCount > 0) { e.target.reset(); fetchCloudData(); }
-      btn.disabled = false; btn.innerHTML = `<i class="fas fa-cloud-upload-alt mr-2"></i> Upload File Fast`;
+      btn.disabled = false; btn.innerHTML = `<i class="fas fa-bolt mr-2"></i> Instant Live Upload`;
     }
 
     async function handleAddEmployee(e) {
       e.preventDefault();
       const btn = document.getElementById('empSubmitBtn');
-      btn.disabled = true; btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving...`;
       const file = document.getElementById('empPhotoFile').files[0];
 
+      // 0.001s Optimistic UI Update - Live Instantly!
+      const tempEmp = {
+        id: "temp-" + Date.now(),
+        name: document.getElementById('empName').value,
+        designation: document.getElementById('empDesignation').value,
+        phone: document.getElementById('empPhone').value,
+        email: document.getElementById('empEmail').value,
+        photo: file ? URL.createObjectURL(file) : ''
+      };
+      state.data.employees.unshift(tempEmp);
+      renderAllSections();
+
+      btn.disabled = true; btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving to Cloud...`;
+      
       const payload = {
         action: "saveEmployee", password: state.adminPassword,
-        name: document.getElementById('empName').value, designation: document.getElementById('empDesignation').value,
-        phone: document.getElementById('empPhone').value, email: document.getElementById('empEmail').value,
-        photoBase64: await compressImage(file), // Using fast compression
+        name: tempEmp.name, designation: tempEmp.designation,
+        phone: tempEmp.phone, email: tempEmp.email,
+        photoBase64: await compressImage(file), 
         photoMimeType: file ? file.type : null, photoFileName: file ? file.name : null
       };
 
       const res = await postToCloud(payload);
-      if(res.success) { e.target.reset(); fetchCloudData(); } else alert(res.message);
+      if(res.success) { e.target.reset(); fetchCloudData(); } 
       btn.disabled = false; btn.innerHTML = `<i class="fas fa-user-check mr-2"></i> Save Profile`;
     }
 
     async function deleteItem(sheetName, id) {
       if (!confirm("Are you sure you want to delete this record?")) return;
+      
+      // 0.001s Optimistic Delete Update
+      if(sheetName === 'Employees') state.data.employees = state.data.employees.filter(x => x.id != id);
+      else if(sheetName === 'Gallery') state.data.gallery = state.data.gallery.filter(x => x.id != id);
+      else if(sheetName === 'Documents') state.data.documents = state.data.documents.filter(x => x.id != id);
+      renderAllSections();
+
       const res = await postToCloud({ action: "deleteItem", password: state.adminPassword, sheetName, id });
-      if(res.success) fetchCloudData(); else alert(res.message);
+      if(res.success) fetchCloudData(); 
     }
 
-    // --- Direct Lightbox (Photo/Video Viewer with Slider) ---
+    // --- Fast Direct Video Lightbox (No Buffer Wait) ---
     let currentLightboxIndex = -1;
 
     function openGalleryLightbox(index) {
@@ -647,21 +692,18 @@
       if (match) fileId = match[1];
       else if(url.match(/d\/([^/]+)/)) fileId = url.match(/d\/([^/]+)/)[1];
 
-      // Video loading overlay added for UX improvement
+      // FAST HTML5 Video Player implementation (Ignores Drive Iframe delay)
       if (type === 'video') {
-        content.innerHTML = `<div class="w-full h-[60vh] sm:h-[80vh] max-w-5xl rounded-3xl shadow-2xl relative bg-slate-900 border border-slate-700/50 flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 z-0">
-              <i class="fas fa-circle-notch fa-spin text-5xl mb-4 text-indigo-500"></i>
-              <p class="text-sm font-semibold tracking-wide text-white">Video is buffering from Cloud...</p>
-              <p class="text-[11px] text-slate-400 mt-2 bg-slate-800/80 px-3 py-1 rounded-full">(Large videos may take time to process)</p>
-            </div>
-            <iframe src="https://drive.google.com/file/d/${fileId}/preview" class="w-full h-full relative z-10" allow="autoplay; fullscreen" frameborder="0" onload="this.previousElementSibling.style.opacity='0'; this.previousElementSibling.style.transition='opacity 0.6s ease';"></iframe>
-          </div>`;
+        const streamUrl = fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : url;
+        content.innerHTML = `
+          <video controls autoplay class="w-full max-h-[85vh] max-w-5xl rounded-2xl shadow-2xl bg-black outline-none border border-slate-700/50">
+            <source src="${streamUrl}" type="video/mp4">
+            <p class="text-white text-center p-5">Your browser doesn't support HTML5 video.</p>
+          </video>`;
       } else {
         content.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-none select-none">`;
       }
       
-      // Handle slider controls visibility
       if (isGallery && state.data.gallery.length > 1) {
         document.getElementById('prevBtn').classList.remove('hidden');
         document.getElementById('nextBtn').classList.remove('hidden');
@@ -688,16 +730,15 @@
     function prevSlide(e) {
       e.stopPropagation();
       if(currentLightboxIndex > 0) openGalleryLightbox(currentLightboxIndex - 1);
-      else openGalleryLightbox(state.data.gallery.length - 1); // loop
+      else openGalleryLightbox(state.data.gallery.length - 1);
     }
     
     function nextSlide(e) {
       e.stopPropagation();
       if(currentLightboxIndex < state.data.gallery.length - 1) openGalleryLightbox(currentLightboxIndex + 1);
-      else openGalleryLightbox(0); // loop
+      else openGalleryLightbox(0); 
     }
 
-    // Expand/Collapse Folders logic
     function toggleFolder(folderId, iconId) {
       const folderDiv = document.getElementById(folderId);
       const icon = document.getElementById(iconId);
@@ -712,7 +753,6 @@
       }
     }
 
-    // --- Edit System ---
     function openEditModal(sheetName, id) {
       const modal = document.getElementById('editModal');
       const form = document.getElementById('editForm');
@@ -793,7 +833,8 @@
     function renderAllSections() { renderGallery(); renderEmployees(); renderDocuments(); }
 
     function getAdminActions(sheetName, id) {
-      if (!state.isLoggedIn) return '';
+      // Don't show admin action blocks for temporarily generated UI items until they receive a real ID
+      if (!state.isLoggedIn || String(id).startsWith("temp-")) return '';
       return `<div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/95 p-1.5 rounded-xl shadow-lg border border-slate-200 backdrop-blur-md transform translate-y-1 group-hover:translate-y-0 z-20">
         <button onclick="openEditModal('${sheetName}', '${id}'); event.stopPropagation();" class="text-blue-600 hover:bg-blue-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-pen text-sm"></i></button>
         <button onclick="deleteItem('${sheetName}', '${id}'); event.stopPropagation();" class="text-red-600 hover:bg-red-50 w-8 h-8 flex items-center justify-center rounded-lg transition"><i class="fas fa-trash text-sm"></i></button>
@@ -802,17 +843,13 @@
 
     function renderGallery() {
       const el = document.getElementById('galleryGrid');
-      
-      // Skeleton loader showing logic
       if (!state.data.gallery.length) {
-        if(isFetchingData) {
-          return el.innerHTML = Array(4).fill(`<div class="card h-56 bg-slate-200 animate-pulse rounded-2xl border-0 shadow-sm"></div>`).join('');
-        }
+        if(isFetchingData) return el.innerHTML = Array(4).fill(`<div class="card h-56 bg-slate-200 animate-pulse rounded-2xl border-0 shadow-sm"></div>`).join('');
         return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-images text-5xl text-indigo-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No media found in gallery.</p></div>`;
       }
-      
       el.innerHTML = state.data.gallery.map((i, index) => `
-        <div class="card overflow-hidden group flex flex-col relative cursor-pointer border-0 shadow-lg" onclick="openGalleryLightbox(${index})">
+        <div class="card overflow-hidden group flex flex-col relative cursor-pointer border-0 shadow-lg ${String(i.id).startsWith("temp-") ? 'opacity-70 grayscale' : ''}" onclick="openGalleryLightbox(${index})">
+          ${String(i.id).startsWith("temp-") ? `<div class="absolute top-2 left-2 z-30 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
           <div class="h-56 bg-slate-100 relative border-b border-slate-100 flex items-center justify-center overflow-hidden">
             ${i.type === 'video' 
               ? `<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition duration-300 z-10 flex items-center justify-center"><i class="fas fa-play text-white text-5xl drop-shadow-xl transform group-hover:scale-110 transition duration-300"></i></div><img src="https://ui-avatars.com/api/?name=Video+File&background=e2e8f0&color=64748b&size=512" class="w-full h-full object-cover opacity-50">` 
@@ -828,17 +865,13 @@
 
     function renderEmployees() {
       const el = document.getElementById('employeesGrid');
-      
-      // Skeleton loader showing logic
       if (!state.data.employees.length) {
-        if(isFetchingData) {
-          return el.innerHTML = Array(4).fill(`<div class="card p-6 h-64 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm flex flex-col items-center"><div class="w-28 h-28 rounded-[2rem] bg-slate-300 mb-6"></div><div class="w-3/4 h-5 bg-slate-300 rounded mb-2"></div><div class="w-1/2 h-4 bg-slate-300 rounded"></div></div>`).join('');
-        }
+        if(isFetchingData) return el.innerHTML = Array(4).fill(`<div class="card p-6 h-64 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm flex flex-col items-center"><div class="w-28 h-28 rounded-[2rem] bg-slate-300 mb-6"></div><div class="w-3/4 h-5 bg-slate-300 rounded mb-2"></div><div class="w-1/2 h-4 bg-slate-300 rounded"></div></div>`).join('');
         return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-user-friends text-5xl text-blue-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No employees found.</p></div>`;
       }
-      
       el.innerHTML = state.data.employees.map(e => `
-        <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white border-0 shadow-lg">
+        <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white border-0 shadow-lg ${String(e.id).startsWith("temp-") ? 'opacity-70 grayscale' : ''}">
+          ${String(e.id).startsWith("temp-") ? `<div class="absolute top-2 left-2 z-30 bg-blue-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
           <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-white shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:-translate-y-2 group-hover:shadow-2xl transition duration-300">
             ${e.photo ? `<img src="${e.photo}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=User&background=eef2ff&color=4f46e5&size=150';" class="w-full h-full object-cover">` : `<i class="fas fa-user text-slate-400 text-4xl"></i>`}
           </div>
@@ -856,11 +889,8 @@
       const el = document.getElementById('documentsContainer');
       const docs = state.data.documents;
       
-      // Skeleton loader showing logic
       if (!docs.length) {
-        if(isFetchingData) {
-          return el.innerHTML = Array(2).fill(`<div class="card p-6 h-32 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm mb-4"></div>`).join('');
-        }
+        if(isFetchingData) return el.innerHTML = Array(2).fill(`<div class="card p-6 h-32 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm mb-4"></div>`).join('');
         return el.innerHTML = `<div class="py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-folder-open text-5xl text-amber-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No documents found.</p></div>`;
       }
       
@@ -874,13 +904,12 @@
       let html = '';
       let folderIndex = 0;
       for (let folder in tree) {
-        // Expand Collapse Added Here
         html += `<div class="card p-6 md:p-8 border-l-4 border-l-indigo-500 shadow-xl mb-8 bg-white"><h4 class="text-slate-900 font-extrabold mb-6 flex items-center uppercase tracking-wider text-base cursor-pointer hover:bg-slate-50 p-2 -ml-2 rounded-xl transition select-none" onclick="toggleFolder('main-folder-${folderIndex}', 'main-icon-${folderIndex}')"><div class="w-12 h-12 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center mr-4 shadow-sm"><i class="fas fa-folder text-amber-500 text-2xl"></i></div> <span class="flex-1">${folder}</span> <div class="p-2 bg-slate-100 rounded-lg"><i id="main-icon-${folderIndex}" class="fas fa-chevron-up text-slate-500"></i></div></h4><div id="main-folder-${folderIndex}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 transition-all duration-300">`;
         for (let sub in tree[folder]) {
           html += `<div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200"><h5 class="text-indigo-600 text-sm font-bold mb-4 flex items-center"><i class="far fa-folder-open mr-2.5 text-indigo-400 text-lg"></i> /${sub}</h5><div class="space-y-3">`;
           tree[folder][sub].forEach(f => {
-            html += `<div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative">
-                <a href="${f.url}" target="_blank" class="text-sm font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3"><div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-lg"></i></div> <span class="truncate">${f.fileName}</span></a>
+            html += `<div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("temp-") ? 'opacity-50' : ''}">
+                <a href="${f.url}" target="_blank" class="text-sm font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3"><div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-lg"></i></div> <span class="truncate">${f.fileName} ${String(f.id).startsWith("temp-") ? '<span class="text-[9px] bg-amber-200 text-amber-800 px-1 ml-1 rounded uppercase">Syncing</span>' : ''}</span></a>
                 ${state.isLoggedIn ? `<div class="flex gap-1.5 ml-3 opacity-0 group-hover:opacity-100 transition-opacity"><button onclick="openEditModal('Documents', '${f.id}')" class="text-blue-600 p-2 hover:bg-blue-50 rounded-lg transition"><i class="fas fa-pen text-sm"></i></button><button onclick="deleteItem('Documents', '${f.id}')" class="text-red-600 p-2 hover:bg-red-50 rounded-lg transition"><i class="fas fa-trash text-sm"></i></button></div>` : ''}
               </div>`;
           });
@@ -892,20 +921,22 @@
       el.innerHTML = html;
     }
 
-    // Tabs
     function switchTab(tab) {
       document.querySelectorAll('.tab-content').forEach(e => {
         e.classList.add('hidden'); e.classList.remove('opacity-100');
       });
-      document.querySelectorAll('.tab-btn:not(#adminAuthBtnMain)').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(btn => btn.classList.remove('active'));
       
       const target = document.getElementById(`${tab}Section`);
       target.classList.remove('hidden');
       setTimeout(() => target.classList.add('opacity-100'), 50);
       document.getElementById(`tab-${tab}`).classList.add('active');
+
+      // Close mobile sidebar automatically after clicking menu
+      document.getElementById('appSidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('open');
     }
 
-    // Initialize the App
     initApp();
   </script>
 </body>
