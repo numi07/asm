@@ -204,7 +204,7 @@
       <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-sky-600 tracking-tight drop-shadow-sm" style="font-family: 'Cinzel', serif;">ASM Packall Database</h2>
     </div>
 
-    <!-- HOME SECTION (Added back from Token 8614) -->
+    <!-- HOME SECTION -->
     <section id="homeSection" class="tab-content transition-opacity duration-300">
         <!-- হিরো ব্যানার -->
         <div class="hero-banner">
@@ -435,7 +435,7 @@
     </div>
   </div>
 
-  <!-- Fast Media Lightbox Modal -->
+  <!-- Fast Media Lightbox Modal (For Gallery) -->
   <div id="lightboxModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
     <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-20">
       <button onclick="closeLightbox()" class="text-white bg-white/10 hover:bg-white/25 p-3 sm:p-4 rounded-full backdrop-blur-md transition shadow-lg flex items-center justify-center">
@@ -445,6 +445,24 @@
     <button id="prevBtn" onclick="prevSlide(event)" class="slider-btn prev-btn hidden"><i class="fas fa-chevron-left text-xl"></i></button>
     <button id="nextBtn" onclick="nextSlide(event)" class="slider-btn next-btn hidden"><i class="fas fa-chevron-right text-xl"></i></button>
     <div id="lightboxContent" class="w-full max-w-6xl flex items-center justify-center h-full max-h-[85vh] relative z-10"></div>
+  </div>
+
+  <!-- Document Viewer Modal (For PDFs & Docs) -->
+  <div id="documentViewerModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[150] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-20 bg-slate-900/50">
+      <h3 id="docViewerTitle" class="text-white font-bold truncate pr-4 text-lg">Document View</h3>
+      <div class="flex gap-3">
+        <a id="docViewerDownloadBtn" href="#" download class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 transition shadow-lg">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <button onclick="closeDocumentViewer()" class="bg-white/10 hover:bg-white/25 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition shadow-lg">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+    </div>
+    <div class="w-full h-[85vh] max-w-6xl mt-16 bg-white rounded-xl overflow-hidden shadow-2xl relative z-10">
+      <iframe id="docViewerIframe" src="" class="w-full h-full border-0"></iframe>
+    </div>
   </div>
 
   <!-- True PWA Manifest Generator -->
@@ -510,7 +528,7 @@
   <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyYedDngFXPkvy_iEf2hxmWPFWsMIEUQwl5IS8yO2eEsnEtQrXmxLw0iyDBl5DTNoeKMA/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx3oXBY2K_eK8uLXxYHKU01GnBYbtAekDxXPIH5C62j2IymTY7qtO4mbE01rnjag8c8XA/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
@@ -521,7 +539,7 @@
     
     let isFetchingData = false;
 
-    // Hamburger Dropdown Logic (Token 8614 Style)
+    // Hamburger Dropdown Logic
     function toggleMenu() {
         const navLinks = document.getElementById('navLinks');
         const menuBtn = document.getElementById('menuBtn');
@@ -953,6 +971,43 @@
       setTimeout(() => formDiv.classList.remove('ring-4', 'ring-sky-400'), 2000);
     }
 
+    // --- Document Viewer (View/Download Modal) ---
+    function openDocumentViewer(url, name) {
+      const modal = document.getElementById('documentViewerModal');
+      const iframe = document.getElementById('docViewerIframe');
+      const title = document.getElementById('docViewerTitle');
+      const downloadBtn = document.getElementById('docViewerDownloadBtn');
+
+      let fileId = "";
+      const match = url.match(/id=([^&]+)/);
+      if (match) fileId = match[1];
+      else if(url.match(/d\/([^/]+)/)) fileId = url.match(/d\/([^/]+)/)[1];
+
+      if (fileId) {
+        title.innerText = name;
+        // Preview URL for viewing directly in the iframe
+        iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+        // Direct Download URL for the download button
+        downloadBtn.href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.remove('opacity-0'), 10);
+      } else {
+        // Fallback for non-standard URLs
+        window.open(url, '_blank');
+      }
+    }
+
+    function closeDocumentViewer() {
+      const modal = document.getElementById('documentViewerModal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.getElementById('docViewerIframe').src = '';
+      }, 300);
+    }
+
+    // --- Gallery Lightbox ---
     let currentLightboxIndex = -1;
 
     function openGalleryLightbox(index) {
@@ -1233,9 +1288,10 @@
         if (validFiles.length > 0) {
           html += `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-4 mt-1">`;
           validFiles.forEach(f => {
+            // Modified to call the View Modal instead of direct download link
             html += `
               <div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("ID_temp_") ? 'opacity-50' : ''}">
-                <a href="${f.url}" target="_blank" class="text-[13px] font-semibold text-slate-700 hover:text-sky-600 truncate flex-1 flex items-center gap-3">
+                <a onclick="openDocumentViewer('${f.url}', '${f.fileName.replace(/'/g, "\\'")}')" class="cursor-pointer text-[13px] font-semibold text-slate-700 hover:text-sky-600 truncate flex-1 flex items-center gap-3">
                   <div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-base"></i></div>
                   <span class="truncate">${f.fileName} ${String(f.id).startsWith("ID_temp_") ? '<span class="text-[9px] bg-amber-200 text-amber-800 px-1 ml-1 rounded uppercase">Syncing</span>' : ''}</span>
                 </a>
