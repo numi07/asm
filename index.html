@@ -528,7 +528,7 @@
   <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx3oXBY2K_eK8uLXxYHKU01GnBYbtAekDxXPIH5C62j2IymTY7qtO4mbE01rnjag8c8XA/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycby7royHj-GeMuDN2bnIXVnvlg2fEpaiZ-hXqJdO2QCj8w0vKowjVLyg-mYZnUH2_dsOEw/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
@@ -1007,7 +1007,7 @@
       }, 300);
     }
 
-    // --- Gallery Lightbox ---
+    // --- Gallery Lightbox (Now using iFrame for robust video support) ---
     let currentLightboxIndex = -1;
 
     function openGalleryLightbox(index) {
@@ -1025,12 +1025,17 @@
       else if(url.match(/d\/([^/]+)/)) fileId = url.match(/d\/([^/]+)/)[1];
 
       if (type === 'video') {
-        const streamUrl = fileId ? `https://drive.google.com/uc?export=download&id=${fileId}` : url;
-        content.innerHTML = `
-          <video controls autoplay class="w-full max-h-[85vh] max-w-5xl rounded-2xl shadow-2xl bg-black outline-none border border-slate-700/50">
-            <source src="${streamUrl}" type="video/mp4">
-            <p class="text-white text-center p-5">Your browser doesn't support HTML5 video.</p>
-          </video>`;
+        if (fileId) {
+          // Native Google Drive iframe player - works perfectly for all formats
+          content.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview?autoplay=1" allow="autoplay; fullscreen" class="w-full h-[85vh] max-w-5xl rounded-2xl shadow-2xl bg-black outline-none border border-slate-700/50" frameborder="0"></iframe>`;
+        } else {
+          // Fallback for temporary blob urls
+          content.innerHTML = `
+            <video controls autoplay class="w-full max-h-[85vh] max-w-5xl rounded-2xl shadow-2xl bg-black outline-none border border-slate-700/50">
+              <source src="${url}" type="video/mp4">
+              <p class="text-white text-center p-5">Your browser doesn't support HTML5 video.</p>
+            </video>`;
+        }
       } else {
         content.innerHTML = `<img src="${url}" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl pointer-events-none select-none">`;
       }
