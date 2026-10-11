@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,171 +14,300 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Modern Fonts Added (Outfit for modern Headings, Plus Jakarta for Body, Cinzel for Premium Logo) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    * { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    /* Premium Color Palette */
+    :root {
+        --bg-color: #060911;
+        --card-bg: rgba(13, 19, 32, 0.8);
+        --text-color: #f1f5f9;
+        --text-muted: #94a3b8;
+        --accent-color: #38bdf8;
+        --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+        --border-color: rgba(255, 255, 255, 0.08);
+        --header-bg: rgba(6, 9, 17, 0.88);
+        --footer-bg: #030509;
+        --shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.55);
+        --glow: 0 0 20px rgba(56, 189, 248, 0.15);
+    }
+
+    [data-theme="light"] {
+        --bg-color: #f4f6f9;
+        --card-bg: rgba(255, 255, 255, 0.95);
+        --text-color: #0f172a;
+        --text-muted: #64748b;
+        --accent-color: #0284c7;
+        --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+        --border-color: rgba(0, 0, 0, 0.07);
+        --header-bg: rgba(244, 246, 249, 0.88);
+        --footer-bg: #e2e8f0;
+        --shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.06);
+        --glow: 0 0 20px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Typography Update */
+    * { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
     
     body { 
-      background-color: #f4f7fb;
-      background-image: 
-        radial-gradient(at 0% 0%, hsla(253,16%,7%,0.04) 0px, transparent 50%),
-        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.04) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.04) 0px, transparent 50%);
-      color: #0f172a; min-height: 100vh; overscroll-behavior-y: none; 
+      background-color: var(--bg-color) !important;
+      color: var(--text-color) !important;
+      min-height: 100vh; overscroll-behavior-y: none; 
       display: flex; flex-direction: column;
     }
     
-    .glass-header {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    }
-    
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 1);
-      border-radius: 24px;
-      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .card:hover { 
-      box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.2); 
-      transform: translateY(-5px) scale(1.01); 
-      border-color: rgba(199, 210, 254, 0.9); 
-    }
-    
-    .input-style {
-      background-color: rgba(248, 250, 252, 0.8); border: 1px solid #cbd5e1; color: #334155;
-      width: 100%; padding: 14px 18px; border-radius: 14px; font-size: 14px; outline: none; transition: all 0.3s ease;
-    }
-    .input-style:focus { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); background-color: #ffffff; }
-    
-    .btn-primary {
-      background-image: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-      color: white; padding: 14px 28px; border-radius: 14px; 
-      font-weight: 600; font-size: 14px; transition: all 0.3s ease; border: none; cursor: pointer;
-      box-shadow: 0 6px 16px 0 rgba(79, 70, 229, 0.4);
-    }
-    .btn-primary:hover { 
-      background-image: linear-gradient(135deg, #4338ca 0%, #2563eb 100%); 
-      transform: translateY(-2px); 
-      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.3); 
-    }
-    
-    .btn-outline {
-      background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(8px);
-      border: 1px solid #cbd5e1; color: #475569; 
-      padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: all 0.3s; cursor: pointer;
-    }
-    .btn-outline:hover { background-color: #ffffff; color: #0f172a; border-color: #94a3b8; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    /* Dynamic Tailwind Class Overrides for Theme Sync */
+    [data-theme="dark"] .bg-white, [data-theme="dark"] .bg-slate-50, [data-theme="dark"] .bg-slate-100, [data-theme="dark"] .bg-\[\#fff8e6\] { background-color: var(--card-bg) !important; }
+    [data-theme="dark"] .text-slate-800, [data-theme="dark"] .text-slate-900, [data-theme="dark"] .text-slate-700 { color: var(--text-color) !important; }
+    [data-theme="dark"] .text-slate-500, [data-theme="dark"] .text-slate-600, [data-theme="dark"] .text-slate-400 { color: var(--text-muted) !important; }
+    [data-theme="dark"] .border-slate-200, [data-theme="dark"] .border-slate-100, [data-theme="dark"] .border-slate-300 { border-color: var(--border-color) !important; }
 
-    .sidebar { transform: translateX(100%); right: 0; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .sidebar.open { transform: translateX(0); }
-    .overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    .overlay.open { opacity: 1; pointer-events: auto; }
+    .glass-header { background: var(--header-bg) !important; border-bottom: 1px solid var(--border-color) !important; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    
+    .card { background: var(--card-bg) !important; backdrop-filter: blur(16px); border: 1px solid var(--border-color) !important; border-radius: 24px; box-shadow: var(--shadow) !important; }
+    .card:hover { border-color: var(--accent-color) !important; box-shadow: var(--glow) !important; }
+    
+    .input-style { background-color: var(--bg-color) !important; border: 1px solid var(--border-color) !important; color: var(--text-color) !important; width: 100%; padding: 14px 18px; border-radius: 14px; font-size: 14px; outline: none; }
+    .input-style:focus { border-color: var(--accent-color) !important; box-shadow: var(--glow) !important; }
+    
+    .btn-primary { background: var(--accent-gradient) !important; color: white !important; padding: 14px 28px; border-radius: 14px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; box-shadow: var(--glow) !important; }
+    .btn-outline { background: var(--card-bg) !important; border: 1px solid var(--border-color) !important; color: var(--text-color) !important; padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+    
+    /* Header & Menu Elements */
+    .logo-area { display: flex; flex-direction: column; overflow: hidden; flex: 1; }
+    .logo-area h1 { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(56, 189, 248, 0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .logo-area .slogan { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10.5px; color: var(--text-muted); margin-top: 2px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .logo-area .slogan::before { content: ''; display: inline-block; width: 4px; height: 4px; background-color: var(--accent-color); border-radius: 50%; box-shadow: 0 0 6px var(--accent-color); }
+    @media (min-width: 768px) { .logo-area h1 { font-size: 21px; } .logo-area .slogan { font-size: 11.5px; letter-spacing: 1.8px; } }
 
-    .menu-item { padding: 14px 20px; border-radius: 12px; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 12px; transition: all 0.3s; cursor: pointer; margin-bottom: 8px; }
-    .menu-item:hover, .menu-item.active { background: #e0e7ff; color: #4f46e5; }
+    .header-controls { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .theme-toggle { background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--text-color); box-shadow: var(--shadow); }
+    .theme-toggle:hover { border-color: var(--accent-color); transform: translateY(-2px); box-shadow: var(--glow); }
+
+    .menu-container { position: relative; }
+    .hamburger-btn { background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; width: 38px; height: 38px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4.5px; box-shadow: var(--shadow); position: relative; z-index: 1001; }
+    .hamburger-btn:hover { border-color: var(--accent-color); transform: translateY(-2px); box-shadow: var(--glow); }
+    .hamburger-btn span { display: block; width: 18px; height: 2px; background-color: var(--text-color); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease; }
+    .hamburger-btn.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background-color: var(--accent-color); }
+    .hamburger-btn.active span:nth-child(2) { opacity: 0; transform: scale(0); }
+    .hamburger-btn.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background-color: var(--accent-color); }
+
+    .nav-links { position: absolute; top: 50px; right: 0; background-color: var(--card-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); width: 210px; border-radius: 14px; box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .nav-links a { font-family: 'Outfit', sans-serif; color: var(--text-color); text-decoration: none; padding: 12px 18px; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--border-color); transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+    .nav-links a:last-child { border-bottom: none; }
+    .nav-links a:hover, .nav-links a.active { background-color: rgba(56, 189, 248, 0.08); padding-left: 22px; color: var(--accent-color); font-weight: 600; }
+    .nav-links.active { display: flex; }
 
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar-track { background: var(--bg-color); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
-    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; z-index: 110; backdrop-filter: blur(8px); }
-    .slider-btn:hover { background: rgba(255,255,255,0.4); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 24px rgba(255,255,255,0.3); }
+    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; z-index: 110; box-shadow: var(--shadow); }
+    .slider-btn:hover { border-color: var(--accent-color); transform: translateY(-50%) scale(1.1); box-shadow: var(--glow); }
     .prev-btn { left: 10px; sm:left: 20px; }
     .next-btn { right: 10px; sm:right: 20px; }
+
+    /* CSS For Home Page Sliders & Banners */
+    .hero-banner { background: var(--card-bg); backdrop-filter: blur(20px); padding: 30px 20px; border-radius: 20px; box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border-color); position: relative; overflow: hidden; margin-bottom: 25px; }
+    .hero-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--accent-gradient); }
+    .hero-banner h2 { font-size: 22px; margin-bottom: 8px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Cinzel', serif; font-weight: 700; }
+    .hero-banner p { color: var(--text-muted); font-size: 15px; font-weight: 500; font-family: 'Outfit', sans-serif;}
+
+    .slider-container { position: relative; background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 25px; }
+    .slides-wrapper { position: relative; width: 100%; padding: 30px 25px; }
+    @media (min-width: 768px) { .slides-wrapper { padding: 40px 45px; } }
+    .text-slide { display: none; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .text-slide.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .text-slide h3 { color: var(--accent-color); margin-bottom: 15px; font-size: 19px; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .text-slide h3 span { display: inline-block; width: 8px; height: 8px; background: var(--accent-color); border-radius: 50%; box-shadow: 0 0 10px var(--accent-color); }
+    .text-slide p { color: var(--text-color); line-height: 1.8; font-size: 15px; text-align: justify; opacity: 0.9; }
+
+    .slider-controls { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: rgba(0, 0, 0, 0.02); border-top: 1px solid var(--border-color); }
+    @media (min-width: 768px) { .slider-controls { padding: 16px 35px; } }
+    .nav-btn { font-family: 'Outfit', sans-serif; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.2s ease; }
+    .nav-btn:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); transform: translateY(-2px); box-shadow: var(--glow); }
+    .dots-container { display: flex; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-color); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .dot.active { background: var(--accent-color); width: 22px; border-radius: 5px; box-shadow: 0 0 8px var(--accent-color); }
+
+    .media-section-title { font-size: 20px; color: var(--accent-color); margin-bottom: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 25px;}
+    .media-card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 18px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow); transition: transform 0.3s ease; }
+    .media-card:hover { transform: translateY(-4px); border-color: var(--accent-color); }
+    .media-container { width: 100%; height: 180px; background: #111; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .media-container img { width: 100%; height: 100%; object-fit: cover; }
+    .media-info { padding: 18px; }
+    .media-info h4 { font-size: 16px; margin-bottom: 6px; color: var(--text-color); font-weight: 700;}
+    .media-info p { font-size: 13px; color: var(--text-muted); font-weight: 500;}
+
+    .photo-slider-wrapper { position: relative; background: var(--card-bg); backdrop-filter: blur(20px); border-radius: 20px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow); padding: 18px; text-align: center; }
+    .photo-slide-container { position: relative; width: 100%; height: 220px; border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+    @media (min-width: 768px) { .photo-slide-container { height: 350px; } }
+    .photo-slide { display: none; width: 100%; height: 100%; animation: fadeIn 0.5s ease-in-out; }
+    .photo-slide.active { display: block; }
+    .photo-slide img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
   </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
+  <!-- Header -->
   <header class="glass-header sticky top-0 z-40 shadow-sm transition-all">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center w-full">
+      
+      <div class="flex items-center gap-3 flex-1 overflow-hidden">
         <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white flex items-center justify-center shadow-lg shrink-0 overflow-hidden border border-slate-100 p-1">
-          <img src="images/logo.png" alt="ASM Logo" class="w-full h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.outerHTML='<div class=\\'w-full h-full bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-xl flex items-center justify-center font-bold text-lg text-white\\'>ASM</div>';">
+          <img src="images/logo.png" alt="ASM Logo" class="w-full h-full object-contain drop-shadow-sm" onerror="this.onerror=null; this.outerHTML='<div class=\\'w-full h-full bg-gradient-to-tr from-sky-400 to-blue-600 rounded-xl flex items-center justify-center font-bold text-lg text-white\\'>ASM</div>';">
         </div>
-        <div>
-          <h1 class="text-lg md:text-xl font-extrabold text-slate-800 tracking-tight leading-tight hidden sm:block">ASM Packall Export Industry Ltd.</h1>
-          <h1 class="text-base font-bold text-slate-800 tracking-tight leading-tight sm:hidden">ASM Packall</h1>
+        <div class="logo-area">
+            <h1>ASM Packall Export Industry Ltd.</h1>
+            <span class="slogan">100% Export Oriented Industry</span>
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <button id="installAppBtn" class="hidden btn-primary flex items-center gap-2 px-3 py-2 text-xs md:text-sm rounded-full shadow-lg">
-          <i class="fas fa-download"></i> <span class="hidden sm:inline">Install App</span>
-        </button>
-        <div class="hidden md:flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200">
+
+      <div class="header-controls">
+        <div class="hidden md:flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
           <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDot"></span>
           <span id="syncStatus" class="text-xs font-bold text-slate-600 uppercase tracking-wider">Live Sync</span>
         </div>
         <div class="flex md:hidden items-center gap-1.5 bg-slate-100 px-2 py-1 rounded-full">
           <span class="w-2 h-2 rounded-full bg-emerald-500" id="syncDotMobile"></span>
         </div>
-        <button onclick="toggleSidebar()" class="text-slate-700 hover:text-indigo-600 focus:outline-none p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 transition ml-1">
-          <i class="fas fa-bars text-2xl"></i>
-        </button>
+
+        <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Theme Toggle">🌙</button>
+
+        <div class="menu-container">
+            <button class="hamburger-btn" id="menuBtn" onclick="toggleMenu()" title="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a onclick="switchTab('home')" id="tab-home" class="active">Home <span>🏠</span></a>
+                <a onclick="switchTab('gallery')" id="tab-gallery">Gallery <span>📁</span></a>
+                <a onclick="switchTab('employees')" id="tab-employees">Employees <span>👥</span></a>
+                <a onclick="switchTab('documents')" id="tab-documents">Documents <span>📄</span></a>
+                <a onclick="handleAdminAuthBtn()" style="color: var(--accent-color); font-weight: 600;"><span id="adminAuthText">Admin Login</span> <span>🔐</span></a>
+            </div>
+        </div>
       </div>
     </div>
   </header>
 
-  <div id="sidebarOverlay" onclick="toggleSidebar()" class="overlay fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40"></div>
-  <div id="appSidebar" class="sidebar fixed inset-y-0 right-0 w-72 bg-white shadow-2xl z-50 flex flex-col border-l border-slate-200">
-    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-      <h2 class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">Menu</h2>
-      <button onclick="toggleSidebar()" class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="p-4 flex-1 overflow-y-auto">
-      <div class="space-y-1 mb-8">
-        <button onclick="switchTab('gallery')" id="tab-gallery" class="menu-item active w-full text-left"><div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600"><i class="fas fa-photo-video"></i></div> Gallery / Video</button>
-        <button onclick="switchTab('employees')" id="tab-employees" class="menu-item w-full text-left"><div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-users"></i></div> Employees</button>
-        <button onclick="switchTab('documents')" id="tab-documents" class="menu-item w-full text-left"><div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600"><i class="fas fa-folder-open"></i></div> Documents</button>
-      </div>
-      
-      <div class="border-t border-slate-200 pt-6">
-        <button onclick="handleAdminAuthBtn(); toggleSidebar()" class="w-full btn-primary !bg-slate-800 hover:!bg-slate-700 flex justify-center items-center gap-2 shadow-lg py-3">
-          <i class="fas fa-shield-alt text-emerald-400" id="adminAuthIcon"></i> 
-          <span id="adminAuthText">Admin Login</span>
-        </button>
-      </div>
-    </div>
-    <div class="p-4 text-center text-[10px] text-slate-400 font-medium bg-slate-50 border-t border-slate-100">
-      System Database v2.1<br>Optimized for 0.001s Sync
-    </div>
-  </div>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full flex flex-col gap-6">
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
-    
     <div class="text-center mb-10">
-      <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 tracking-tight drop-shadow-sm">ASM Packall Export Industry Ltd.</h2>
+      <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-500 to-sky-600 tracking-tight drop-shadow-sm" style="font-family: 'Cinzel', serif;">ASM Packall Database</h2>
     </div>
+
+    <!-- HOME SECTION (Added back from Token 8614) -->
+    <section id="homeSection" class="tab-content transition-opacity duration-300">
+        <!-- হিরো ব্যানার -->
+        <div class="hero-banner">
+            <h2>এএসএম প্যাকঅল এক্সপোর্ট ইন্ডাস্ট্রি লিঃ</h2>
+            <p>আন্তর্জাতিক মানসম্পন্ন প্যাকেজিং ও রপ্তানিমুখী শিল্প প্রতিষ্ঠান</p>
+        </div>
+
+        <!-- কার্যক্রমের বিবরণ (স্লাইড সিস্টেম) -->
+        <div class="slider-container">
+            <div class="slides-wrapper">
+                <div class="text-slide active">
+                    <h3><span></span>আমাদের পরিচয় ও কার্যক্রম</h3>
+                    <p>এএসএম প্যাকঅল এক্সপোর্ট ইন্ডাস্ট্রি লিঃ একটি সম্পূর্ণ শতভাগ রপ্তানিমুখী (100% Export Oriented) শিল্প প্রতিষ্ঠান, যা মংলা ইপিজেডের (Mongla EPZ) অভ্যন্তরে প্লট নং ৫৯ ও ৬০-এ অবস্থিত। প্রতিষ্ঠানটি প্রতিষ্ঠার শুরু থেকেই আন্তর্জাতিক বাণিজ্যের চাহিদা পূরণে আধুনিক প্রযুক্তি ও দক্ষ জনবলের সমন্বয়ে মানসম্মত প্যাকেজিং এবং আনুষঙ্গিক পণ্য উৎপাদন করে আসছে।</p>
+                </div>
+                <div class="text-slide">
+                    <h3><span></span>উৎপাদন প্রক্রিয়া ও প্রযুক্তি</h3>
+                    <p>আমাদের কারখানায় আধুনিক ও উন্নত প্রযুক্তির ইন্ডাস্ট্রিয়াল মেশিনারি ব্যবহার করা হয়, যা নিখুঁত ও দ্রুত উৎপাদন নিশ্চিত করে। কাঁচামাল সংগ্রহ থেকে শুরু করে চূড়ান্ত পণ্য প্রস্তুত এবং প্যাকেজিং পর্যন্ত প্রতিটি ধাপে আমাদের অভিজ্ঞ টেকনিশিয়ান ও প্রকৌশলীরা নিবিড় তদারকি বজায় রাখেন।</p>
+                </div>
+                <div class="text-slide">
+                    <h3><span></span>গুণগত মান নিয়ন্ত্রণ ও কমপ্লায়েন্স</h3>
+                    <p>মংলা ইপিজেডের নিয়মনীতি এবং আন্তর্জাতিক শ্রম ও পরিবেশগত মানদণ্ড (Compliance) পুরোপুরি মেনে আমাদের কার্যক্রম পরিচালিত হয়। প্রতিটি উৎপাদিত ব্যাচ বাজারে পাঠানোর আগে কোয়ালিটি কন্ট্রোল (QC) টিম কর্তৃক কঠোর পরীক্ষার মধ্য দিয়ে যায়।</p>
+                </div>
+                <div class="text-slide">
+                    <h3><span></span>সামাজিক দায়বদ্ধতা ও ভবিষ্যৎ পরিকল্পনা</h3>
+                    <p>আমাদের প্রতিষ্ঠানে স্থানীয় কর্মসংস্থানের সৃষ্টির পাশাপাশি কর্মীদের দক্ষতা বৃদ্ধির জন্য নিয়মিত প্রশিক্ষণ প্রদান করা হয়। একটি সুশৃঙ্খল কর্মপরিবেশ এবং কর্মীদের নিরাপত্তা নিশ্চিত করাই আমাদের অন্যতম অগ্রাধিকার। ভবিষ্যতে উৎপাদন সক্ষমতা আরও বাড়িয়ে আন্তর্জাতিক পরিধি বিস্তৃত করার পরিকল্পনা রয়েছে।</p>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="nav-btn" onclick="prevTextSlide()">❮ পূর্ববর্তী</button>
+                <div class="dots-container" id="dotsContainer">
+                    <span class="dot active" onclick="currentTextSlide(0)"></span>
+                    <span class="dot" onclick="currentTextSlide(1)"></span>
+                    <span class="dot" onclick="currentTextSlide(2)"></span>
+                    <span class="dot" onclick="currentTextSlide(3)"></span>
+                </div>
+                <button class="nav-btn" onclick="nextTextSlide()">পরবর্তী ❯</button>
+            </div>
+        </div>
+
+        <!-- প্রতিষ্ঠানের ফটো ও ভিডিও সেকশন -->
+        <div>
+            <h3 class="media-section-title">🎥 প্রতিষ্ঠানের ভিডিও ও কার্যক্রম</h3>
+            <div class="media-grid">
+                <div class="media-card">
+                    <div class="media-container">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80" alt="Factory Overview">
+                    </div>
+                    <div class="media-info">
+                        <h4>ফ্যাক্টরি ওভারভিউ ও প্রোডাকশন লাইন</h4>
+                        <p>মংলা ইপিজেড প্লট ৫৯ ও ৬০-এর আধুনিক উৎপাদন ফ্লোর</p>
+                    </div>
+                </div>
+                <div class="media-card">
+                    <div class="media-container">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80" alt="Packaging & Export">
+                    </div>
+                    <div class="media-info">
+                        <h4>প্যাকেজিং ও লজিস্টিক অপারেশন</h4>
+                        <p>আন্তর্জাতিক মানের শতভাগ রপ্তানিমুখী পণ্য লোডিং প্রক্রিয়া</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ফটো স্লাইডার সেকশন -->
+        <div>
+            <h3 class="media-section-title">📸 ফটো গ্যালারি স্লাইড</h3>
+            <div class="photo-slider-wrapper">
+                <div class="photo-slide-container">
+                    <div class="photo-slide active"><img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80" alt="Machine Operation"></div>
+                    <div class="photo-slide"><img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80" alt="Warehouse"></div>
+                    <div class="photo-slide"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Quality Control"></div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 8px;">
+                    <button class="nav-btn" onclick="prevHeroPhoto()">❮ আগের ছবি</button>
+                    <button class="nav-btn" onclick="nextHeroPhoto()">পরের ছবি ❯</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Admin Control Panel -->
     <div id="adminPanel" class="hidden mb-12 scroll-mt-24">
-      <div class="card p-6 sm:p-8 border-t-4 border-t-indigo-500 shadow-2xl bg-gradient-to-b from-white to-slate-50/50 relative overflow-hidden transition-all duration-300">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500"></div>
+      <div class="card p-6 sm:p-8 relative overflow-hidden transition-all duration-300">
+        <div class="absolute top-0 left-0 w-full h-1" style="background: var(--accent-gradient);"></div>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-5 mb-8 mt-2 gap-4">
-          <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-3">
-            <div class="p-2.5 bg-indigo-100 rounded-xl"><i class="fas fa-sliders-h text-indigo-600"></i></div>
+          <h3 class="text-lg sm:text-xl font-bold flex items-center gap-3">
+            <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100"><i class="fas fa-sliders-h" style="color: var(--accent-color)"></i></div>
             Data Entry Panel
           </h3>
           <div class="flex items-center gap-2 w-full sm:w-auto">
-            <!-- New Global Create Folder Button always visible -->
-            <button onclick="promptCreateFolder('')" class="btn-outline flex-1 sm:flex-none flex justify-center items-center gap-2 bg-white !border-amber-300 hover:!bg-amber-50">
-              <i class="fas fa-folder-plus text-amber-500"></i> <span class="font-bold text-amber-700">New Folder</span>
+            <button onclick="promptCreateFolder('')" class="btn-outline flex-1 sm:flex-none flex justify-center items-center gap-2">
+              <i class="fas fa-folder-plus text-amber-500"></i> <span>New Folder</span>
             </button>
-            <span class="text-xs bg-emerald-100 text-emerald-700 border border-emerald-200 px-4 py-2.5 sm:py-1.5 rounded-xl sm:rounded-full font-bold shadow-sm flex items-center"><i class="fas fa-check-circle mr-1"></i> Admin</span>
+            <span class="text-xs bg-emerald-100/10 text-emerald-500 border border-emerald-500/30 px-4 py-2.5 sm:py-1.5 rounded-xl sm:rounded-full font-bold shadow-sm flex items-center"><i class="fas fa-check-circle mr-1"></i> Admin</span>
           </div>
         </div>
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           <!-- Upload Document/Gallery Form -->
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg">
-            <h4 class="text-sm font-extrabold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-indigo-500"></i> File & Media Upload</h4>
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg relative z-0">
+            <h4 class="text-sm font-extrabold mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-sky-500"></i> File & Media Upload</h4>
             <form onsubmit="handleFileUpload(event)" class="space-y-4">
               <select id="uploadCategory" onchange="toggleUploadCategoryFields()" class="input-style font-medium">
                 <option value="document">Document (Folder Structured)</option>
@@ -189,15 +318,15 @@
                 <div class="flex flex-col gap-2">
                   <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Root / Main Folder</label>
                   <select id="mainFolderSelect" class="input-style w-full" onchange="checkNewFolder('mainFolderSelect', 'mainFolderInput')"></select>
-                  <input type="text" id="mainFolderInput" class="input-style hidden w-full border-indigo-300" placeholder="e.g. Office_Documents">
+                  <input type="text" id="mainFolderInput" class="input-style hidden w-full border-sky-300" placeholder="e.g. Office_Documents">
                 </div>
                 <div class="flex flex-col gap-2">
                   <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide flex items-center justify-between">
                     <span>Deep Nested Path (Optional)</span>
-                    <span class="text-indigo-400 font-normal normal-case"><i class="fas fa-info-circle"></i> e.g. 2026/Clients/Tax</span>
+                    <span class="text-sky-400 font-normal normal-case"><i class="fas fa-info-circle"></i> e.g. 2026/Clients/Tax</span>
                   </label>
                   <select id="subFolderSelect" class="input-style w-full" onchange="checkNewFolder('subFolderSelect', 'subFolderInput')"></select>
-                  <input type="text" id="subFolderInput" class="input-style hidden w-full border-indigo-300" placeholder="Folder/Sub-Folder/Deep-Folder">
+                  <input type="text" id="subFolderInput" class="input-style hidden w-full border-sky-300" placeholder="Folder/Sub-Folder/Deep-Folder">
                 </div>
               </div>
 
@@ -205,16 +334,16 @@
                 <input type="text" id="galleryTitleInput" placeholder="Enter Photo/Video Title" class="input-style">
               </div>
               
-              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition hover:bg-slate-100 hover:border-indigo-300">
-                <input type="file" id="filePicker" multiple required class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 file:font-bold cursor-pointer transition">
+              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition">
+                <input type="file" id="filePicker" multiple required class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-sky-500/10 file:text-sky-500 hover:file:bg-sky-500/20 file:font-bold cursor-pointer transition" style="color: var(--text-color)">
               </div>
               <button type="submit" id="uploadSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-bolt mr-2"></i> Instant Live Upload</button>
             </form>
           </div>
 
           <!-- Add Employee Form -->
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg">
-            <h4 class="text-sm font-extrabold text-slate-700 mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-user-plus text-blue-500"></i> Add Employee Profile</h4>
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm transition hover:shadow-lg relative z-0">
+            <h4 class="text-sm font-extrabold mb-5 uppercase tracking-wider flex items-center gap-2"><i class="fas fa-user-plus text-sky-500"></i> Add Employee Profile</h4>
             <form onsubmit="handleAddEmployee(event)" class="space-y-4">
               <input type="text" id="empName" required placeholder="Full Name" class="input-style">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -222,9 +351,9 @@
                 <input type="text" id="empPhone" placeholder="Phone Number" class="input-style">
               </div>
               <input type="email" id="empEmail" placeholder="Email Address" class="input-style">
-              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition hover:bg-slate-100 hover:border-blue-300">
+              <div class="p-3 border-2 border-slate-200 border-dashed rounded-2xl bg-slate-50 transition">
                 <span class="text-xs text-slate-500 block mb-2 font-bold ml-1">Profile Photo (Optional)</span>
-                <input type="file" id="empPhotoFile" accept="image/*" class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:font-bold cursor-pointer transition">
+                <input type="file" id="empPhotoFile" accept="image/*" class="w-full text-sm text-slate-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-sky-500/10 file:text-sky-500 hover:file:bg-sky-500/20 file:font-bold cursor-pointer transition" style="color: var(--text-color)">
               </div>
               <button type="submit" id="empSubmitBtn" class="btn-primary w-full shadow-lg py-3.5 text-base mt-2"><i class="fas fa-user-check mr-2"></i> Save Profile</button>
             </form>
@@ -234,7 +363,8 @@
       </div>
     </div>
 
-    <section id="gallerySection" class="tab-content transition-opacity duration-300">
+    <!-- Data Sections -->
+    <section id="gallerySection" class="tab-content hidden transition-opacity duration-300">
       <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </section>
 
@@ -248,23 +378,46 @@
 
   </main>
 
-  <footer class="bg-white/90 backdrop-blur-md border-t border-slate-200 mt-auto w-full z-10">
-    <div class="max-w-7xl mx-auto px-4 py-6 text-center">
-      <p class="text-slate-600 text-sm font-semibold flex items-center justify-center flex-wrap gap-2">
-        <span class="p-2 bg-red-50 rounded-full text-red-500 shrink-0 shadow-inner"><i class="fas fa-map-marker-alt"></i></span> 
-        Address: Plot No: 59 & 60, Mongla EPZ, Mongla, Bagerhat.
-      </p>
-      <p class="text-[10px] text-slate-400 mt-3">&copy; <script>document.write(new Date().getFullYear())</script> ASM Packall Export Industry Ltd.</p>
+  <!-- Premium & Modernized Footer -->
+  <footer class="mt-auto w-full z-10 relative overflow-hidden border-t" style="border-color: var(--border-color); background-color: var(--footer-bg);">
+    <div class="absolute top-0 left-0 w-full h-[2px]" style="background: var(--accent-gradient);"></div>
+    <div class="backdrop-blur-xl py-8">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <!-- Address Block -->
+        <div class="flex items-center gap-4 bg-black/5 dark:bg-white/5 px-5 py-3.5 rounded-2xl border shadow-sm transition-all hover:shadow-md" style="border-color: var(--border-color);">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-red-500/10 text-red-500 shrink-0 shadow-inner">
+            <i class="fas fa-map-marker-alt text-lg"></i>
+          </div>
+          <div class="text-left">
+            <p class="text-[10px] font-extrabold tracking-widest uppercase mb-0.5" style="color: var(--accent-color);">Factory Address</p>
+            <p class="text-sm font-semibold" style="color: var(--text-color);">Plot No: 59 & 60, Mongla EPZ, Bagerhat.</p>
+          </div>
+        </div>
+        
+        <!-- Credit Block -->
+        <div class="text-center md:text-right flex flex-col items-center md:items-end gap-3">
+          <p class="text-[13px] font-medium tracking-wide" style="color: var(--text-muted);">
+            &copy; <script>document.write(new Date().getFullYear())</script> <span style="color: var(--text-color); font-weight: 700;">ASM Packall Export Industry Ltd.</span> All Rights Reserved.
+          </p>
+          <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 group" style="background: var(--card-bg); border-color: var(--border-color);">
+            <span class="text-[11px] font-semibold uppercase tracking-wide" style="color: var(--text-muted);">ডিজাইন এন্ড ডেভেলপমেন্ট:</span>
+            <span class="text-[13px] font-extrabold bg-clip-text text-transparent group-hover:scale-105 transition-transform" style="background-image: var(--accent-gradient);">আল নোমান শিকদার</span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </footer>
 
-  <div id="loginModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity">
-    <div class="card p-8 max-w-sm w-full relative shadow-2xl border-t-4 border-t-indigo-500">
-      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
-      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 border border-indigo-200 flex items-center justify-center mb-6 text-indigo-600 shadow-inner mx-auto"><i class="fas fa-lock text-3xl"></i></div>
+  <!-- Login Modal -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity">
+    <div class="card p-8 max-w-sm w-full relative">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition border border-slate-200"><i class="fas fa-times"></i></button>
+      <div class="w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center mb-6 text-sky-500 shadow-inner mx-auto"><i class="fas fa-lock text-3xl"></i></div>
       <div class="text-center">
-        <h3 class="text-2xl font-bold text-slate-800 mb-2">Admin Security</h3>
-        <p class="text-sm text-slate-500 mb-8 font-medium">Enter your secure password to access the management dashboard.</p>
+        <h3 class="text-2xl font-bold mb-2">Admin Security</h3>
+        <p class="text-sm mb-8 font-medium" style="color: var(--text-muted)">Enter your secure password to access the management dashboard.</p>
       </div>
       <form onsubmit="handleLoginSubmit(event)">
         <input type="password" id="adminPasswordInput" required placeholder="••••••••" class="input-style mb-6 text-center tracking-[0.5em] text-xl font-bold py-4">
@@ -273,14 +426,16 @@
     </div>
   </div>
 
-  <div id="editModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-    <div class="card p-8 max-w-md w-full relative border-t-4 border-t-indigo-500 shadow-2xl">
-      <button onclick="closeEditModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
-      <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4" id="editModalTitle">Edit Record</h3>
+  <!-- Universal Edit Modal -->
+  <div id="editModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="card p-8 max-w-md w-full relative border-t-4" style="border-top-color: var(--accent-color)">
+      <button onclick="closeEditModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition border border-slate-200"><i class="fas fa-times"></i></button>
+      <h3 class="text-xl font-bold mb-6 flex items-center gap-2 border-b border-slate-100 pb-4" id="editModalTitle">Edit Record</h3>
       <form onsubmit="submitEditForm(event)" id="editForm" class="space-y-4"></form>
     </div>
   </div>
 
+  <!-- Fast Media Lightbox Modal -->
   <div id="lightboxModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden flex-col items-center justify-center p-2 sm:p-6 transition-opacity opacity-0">
     <div class="absolute top-0 left-0 w-full p-4 flex justify-end z-20">
       <button onclick="closeLightbox()" class="text-white bg-white/10 hover:bg-white/25 p-3 sm:p-4 rounded-full backdrop-blur-md transition shadow-lg flex items-center justify-center">
@@ -292,6 +447,7 @@
     <div id="lightboxContent" class="w-full max-w-6xl flex items-center justify-center h-full max-h-[85vh] relative z-10"></div>
   </div>
 
+  <!-- True PWA Manifest Generator -->
   <script>
     const setupPWA = () => {
       try {
@@ -302,8 +458,8 @@
           "short_name": "ASM Packall",
           "start_url": baseUrl,
           "display": "standalone",
-          "background_color": "#f4f7fb",
-          "theme_color": "#4f46e5",
+          "background_color": "#060911",
+          "theme_color": "#38bdf8",
           "icons": [
             { "src": iconUrl, "sizes": "192x192", "type": "image/png" },
             { "src": iconUrl, "sizes": "512x512", "type": "image/png" }
@@ -351,24 +507,65 @@
     }
   </script>
 
+  <!-- JS Logic Core -->
   <script>
     // আপনার নতুন Web App URL এখানে দিন
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwRtHDNdbx190FKk6PNtjVRkswI8zd8n6nV0PA4kHqZ6s1zoQHgLAS_Bxf2-fQTDOGjJg/exec";
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyYedDngFXPkvy_iEf2hxmWPFWsMIEUQwl5IS8yO2eEsnEtQrXmxLw0iyDBl5DTNoeKMA/exec";
 
     let state = {
       adminPassword: null, isLoggedIn: false,
       data: { employees: [], gallery: [], documents: [] },
-      editContext: null
+      editContext: null,
+      expandedFolders: new Set() // Added to preserve folder collapse states
     };
     
     let isFetchingData = false;
 
-    function toggleSidebar() {
-      document.getElementById('appSidebar').classList.toggle('open');
-      document.getElementById('sidebarOverlay').classList.toggle('open');
+    // Hamburger Dropdown Logic (Token 8614 Style)
+    function toggleMenu() {
+        const navLinks = document.getElementById('navLinks');
+        const menuBtn = document.getElementById('menuBtn');
+        navLinks.classList.toggle('active');
+        menuBtn.classList.toggle('active');
+    }
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleBtn');
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.setAttribute('data-theme', 'light');
+            themeBtn.textContent = '☀️';
+            localStorage.setItem('asm_theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            themeBtn.textContent = '🌙';
+            localStorage.setItem('asm_theme', 'dark');
+        }
+    }
+
+    window.onclick = function(event) {
+        if (!event.target.closest('.menu-container')) {
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.getElementById('menuBtn');
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                menuBtn.classList.remove('active');
+            }
+        }
     }
 
     function initApp() {
+      // Restore Theme
+      const savedTheme = localStorage.getItem('asm_theme');
+      if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+          document.getElementById('themeToggleBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+      }
+
+      // Restore active tab (Defaults to home now)
+      const savedTab = sessionStorage.getItem('activeAsmTab') || 'home';
+      switchTab(savedTab, false);
+
       const savedPass = sessionStorage.getItem('asm_admin_pass');
       if (savedPass) {
         state.isLoggedIn = true;
@@ -476,12 +673,12 @@
       
       let mainHtml = `<option value="">-- Select Root Folder --</option>`;
       mainSet.forEach(f => mainHtml += `<option value="${f}">${f}</option>`);
-      mainHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Create New Root Folder</option>`;
+      mainHtml += `<option value="NEW" class="font-bold text-sky-500">+ Create New Root Folder</option>`;
       document.getElementById('mainFolderSelect').innerHTML = mainHtml;
 
       let subHtml = `<option value="">-- Select Nested Path --</option>`;
       subSet.forEach(f => subHtml += `<option value="${f}">${f}</option>`);
-      subHtml += `<option value="NEW" class="font-bold text-indigo-600">+ Type Custom Path (e.g. a/b/c)</option>`;
+      subHtml += `<option value="NEW" class="font-bold text-sky-500">+ Type Custom Path (e.g. a/b/c)</option>`;
       document.getElementById('subFolderSelect').innerHTML = subHtml;
     }
 
@@ -502,6 +699,9 @@
       } else { 
         document.getElementById('loginModal').classList.remove('hidden'); 
       }
+      // Close dropdown if open
+      document.getElementById('navLinks').classList.remove('active');
+      document.getElementById('menuBtn').classList.remove('active');
     }
     
     function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
@@ -528,7 +728,7 @@
       const authTexts = document.querySelectorAll('#adminAuthText');
       const authIcons = document.querySelectorAll('#adminAuthIcon');
       authTexts.forEach(el => el.innerText = state.isLoggedIn ? "Logout" : "Admin Login");
-      authIcons.forEach(el => el.className = state.isLoggedIn ? "fas fa-sign-out-alt text-red-400" : "fas fa-shield-alt text-emerald-400");
+      authIcons.forEach(el => el.className = state.isLoggedIn ? "fas fa-sign-out-alt text-red-500" : "fas fa-shield-alt text-emerald-500");
     }
 
     function toggleUploadCategoryFields() {
@@ -547,6 +747,10 @@
       const subSel = document.getElementById('subFolderSelect').value;
       const finalMain = mainSel === 'NEW' ? document.getElementById('mainFolderInput').value : mainSel;
       const finalSub = subSel === 'NEW' ? document.getElementById('subFolderInput').value : subSel;
+
+      // Expand the folder where we are uploading to so user sees the new temp items
+      const fullPath = (finalMain + (finalSub ? '/' + finalSub : '')).replace(/\/+/g, '/').replace(/\/$/, '');
+      if(category === 'document') state.expandedFolders.add(fullPath);
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -569,12 +773,12 @@
       renderAllSections();
 
       btn.disabled = true; 
-      let uploadedCount = 0;
+      btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading ${files.length} files...`;
       
+      // Parallel concurrent uploading logic for blazing speed
+      const uploadPromises = [];
       for (let i = 0; i < files.length; i++) {
         let file = files[i];
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Saving ${i + 1}/${files.length}...`;
-        
         let titleVal = document.getElementById('galleryTitleInput').value;
         if(titleVal && files.length > 1) titleVal = `${titleVal} (${i + 1})`;
 
@@ -582,15 +786,17 @@
           action: "uploadFile", password: state.adminPassword,
           fileName: file.name, mimeType: file.type, 
           base64Data: await compressImage(file), 
-          type: category, folderPath: category === 'document' ? (finalMain + (finalSub ? '/' + finalSub : '')).replace(/\/+/g, '/') : 'gallery',
+          type: category, folderPath: category === 'document' ? fullPath : 'gallery',
           folderName: finalMain, subFolderName: finalSub,
           title: titleVal || file.name, 
           fileType: file.type.startsWith('video/') ? 'video' : 'photo'
         };
 
-        const res = await postToCloud(payload);
-        if(res.success) uploadedCount++; 
+        uploadPromises.push(postToCloud(payload));
       }
+
+      const results = await Promise.all(uploadPromises);
+      const uploadedCount = results.filter(r => r.success).length;
 
       if(uploadedCount > 0) { e.target.reset(); fetchCloudData(); }
       btn.disabled = false; btn.innerHTML = `<i class="fas fa-bolt mr-2"></i> Instant Live Upload`;
@@ -639,12 +845,18 @@
       if(res.success) fetchCloudData(); 
     }
 
+    // --- FOLDER MANAGEMENT FUNCTIONS ---
+
     async function promptCreateFolder(parentPath) {
       const folderName = prompt(parentPath ? `Enter new folder name inside "${parentPath}":` : "Enter new Root Folder name:");
       if (!folderName) return;
 
       const fullPath = parentPath ? parentPath + '/' + folderName : folderName;
       const parts = fullPath.split('/');
+
+      // Automatically expand parent path so new folder is visible immediately
+      if(parentPath) state.expandedFolders.add(parentPath);
+      state.expandedFolders.add(fullPath);
 
       state.data.documents.unshift({
         id: "ID_temp_" + Date.now(),
@@ -683,6 +895,12 @@
       const oldParts = oldPath.split('/');
       oldParts[oldParts.length - 1] = newName;
       const newPath = oldParts.join('/');
+
+      // Transfer expanded state to new path
+      if(state.expandedFolders.has(oldPath)) {
+        state.expandedFolders.delete(oldPath);
+        state.expandedFolders.add(newPath);
+      }
 
       state.data.documents = state.data.documents.map(d => {
          let full = (d.folderName + (d.subFolderName ? '/' + d.subFolderName : '')).replace(/\/+/g, '/').replace(/\/$/, '');
@@ -731,8 +949,8 @@
 
       document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
       const formDiv = document.querySelector('#adminPanel .bg-white.p-6');
-      formDiv.classList.add('ring-4', 'ring-indigo-400');
-      setTimeout(() => formDiv.classList.remove('ring-4', 'ring-indigo-400'), 2000);
+      formDiv.classList.add('ring-4', 'ring-sky-400');
+      setTimeout(() => formDiv.classList.remove('ring-4', 'ring-sky-400'), 2000);
     }
 
     let currentLightboxIndex = -1;
@@ -797,24 +1015,26 @@
       else openGalleryLightbox(0); 
     }
 
-    function toggleFolder(folderId, iconId) {
+    function toggleFolder(folderId, iconId, path) {
       const folderDiv = document.getElementById(folderId);
       const icon = document.getElementById(iconId);
       if(folderDiv.classList.contains('hidden')) {
         folderDiv.classList.remove('hidden');
         icon.classList.remove('fa-chevron-down');
         icon.classList.add('fa-chevron-up');
+        if(path) state.expandedFolders.add(path); // Save expanded state
       } else {
         folderDiv.classList.add('hidden');
         icon.classList.remove('fa-chevron-up');
         icon.classList.add('fa-chevron-down');
+        if(path) state.expandedFolders.delete(path); // Remove expanded state
       }
     }
 
     function openEditModal(sheetName, id) {
       const modal = document.getElementById('editModal');
       const form = document.getElementById('editForm');
-      document.getElementById('editModalTitle').innerHTML = `<i class="fas fa-edit text-indigo-500"></i> Edit ${sheetName}`;
+      document.getElementById('editModalTitle').innerHTML = `<i class="fas fa-edit" style="color: var(--accent-color)"></i> Edit ${sheetName}`;
       
       let html = '';
       if(sheetName === 'Employees') {
@@ -831,7 +1051,7 @@
           <input type="text" id="editEmail" value="${item.email}" class="input-style mb-4">
           <div class="p-3 border border-slate-300 border-dashed rounded-xl bg-slate-50 mb-4">
             <span class="text-xs font-medium text-slate-600 block mb-2">Update Photo (Leave empty to keep old)</span>
-            <input type="file" id="editFile" accept="image/*" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-700 file:font-semibold">
+            <input type="file" id="editFile" accept="image/*" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-sky-500/10 file:text-sky-500 file:font-semibold" style="color: var(--text-color)">
           </div>`;
       } else if (sheetName === 'Gallery') {
         const item = state.data.gallery.find(x => x.id == id);
@@ -847,7 +1067,7 @@
           <input type="text" id="editFileName" value="${item.fileName}" class="input-style mb-4">
           <div class="p-3 border border-slate-300 border-dashed rounded-xl bg-slate-50 mb-4">
             <span class="text-xs font-medium text-slate-600 block mb-2">Upload New File (Leave empty to keep old)</span>
-            <input type="file" id="editFile" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-700 file:font-semibold">
+            <input type="file" id="editFile" class="w-full text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-sky-500/10 file:text-sky-500 file:font-semibold" style="color: var(--text-color)">
           </div>`;
       }
       html += `<button type="submit" id="editSubmitBtn" class="btn-primary w-full shadow-md py-3 text-base">Save Changes</button>`;
@@ -901,11 +1121,11 @@
       const el = document.getElementById('galleryGrid');
       if (!state.data.gallery.length) {
         if(isFetchingData) return el.innerHTML = Array(4).fill(`<div class="card h-56 bg-slate-200 animate-pulse rounded-2xl border-0 shadow-sm"></div>`).join('');
-        return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-images text-5xl text-indigo-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No media found in gallery.</p></div>`;
+        return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-images text-5xl text-sky-500/30 mb-4"></i><p class="text-slate-500 font-medium text-lg">No media found in gallery.</p></div>`;
       }
       el.innerHTML = state.data.gallery.map((i, index) => `
         <div class="card overflow-hidden group flex flex-col relative cursor-pointer border-0 shadow-lg ${String(i.id).startsWith("ID_temp_") ? 'opacity-70 grayscale' : ''}" onclick="openGalleryLightbox(${index})">
-          ${String(i.id).startsWith("ID_temp_") ? `<div class="absolute top-2 left-2 z-30 bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
+          ${String(i.id).startsWith("ID_temp_") ? `<div class="absolute top-2 left-2 z-30 bg-sky-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
           <div class="h-56 bg-slate-100 relative border-b border-slate-100 flex items-center justify-center overflow-hidden">
             ${i.type === 'video' 
               ? `<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition duration-300 z-10 flex items-center justify-center"><i class="fas fa-play text-white text-5xl drop-shadow-xl transform group-hover:scale-110 transition duration-300"></i></div><img src="https://ui-avatars.com/api/?name=Video+File&background=e2e8f0&color=64748b&size=512" class="w-full h-full object-cover opacity-50">` 
@@ -913,7 +1133,7 @@
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-900/90 to-transparent flex flex-col justify-end h-1/2">
             <h4 class="font-bold text-white text-base truncate mb-1 shadow-sm" title="${i.title}">${i.title}</h4>
-            <span class="text-indigo-300 text-xs font-semibold tracking-wider uppercase"><i class="fas ${i.type === 'video' ? 'fa-video' : 'fa-image'} mr-1"></i> ${i.type}</span>
+            <span class="text-sky-400 text-xs font-semibold tracking-wider uppercase"><i class="fas ${i.type === 'video' ? 'fa-video' : 'fa-image'} mr-1"></i> ${i.type}</span>
           </div>
           ${getAdminActions('Gallery', i.id)}
         </div>`).join('');
@@ -923,31 +1143,32 @@
       const el = document.getElementById('employeesGrid');
       if (!state.data.employees.length) {
         if(isFetchingData) return el.innerHTML = Array(4).fill(`<div class="card p-6 h-64 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm flex flex-col items-center"><div class="w-28 h-28 rounded-[2rem] bg-slate-300 mb-6"></div><div class="w-3/4 h-5 bg-slate-300 rounded mb-2"></div><div class="w-1/2 h-4 bg-slate-300 rounded"></div></div>`).join('');
-        return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-user-friends text-5xl text-blue-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No employees found.</p></div>`;
+        return el.innerHTML = `<div class="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-user-friends text-5xl text-sky-500/30 mb-4"></i><p class="text-slate-500 font-medium text-lg">No employees found.</p></div>`;
       }
       el.innerHTML = state.data.employees.map(e => `
         <div class="card p-6 sm:p-8 group relative text-center flex flex-col items-center bg-white border-0 shadow-lg ${String(e.id).startsWith("ID_temp_") ? 'opacity-70 grayscale' : ''}">
-          ${String(e.id).startsWith("ID_temp_") ? `<div class="absolute top-2 left-2 z-30 bg-blue-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
-          <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-white shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:-translate-y-2 group-hover:shadow-2xl transition duration-300">
+          ${String(e.id).startsWith("ID_temp_") ? `<div class="absolute top-2 left-2 z-30 bg-sky-500 text-white text-[10px] font-bold px-2 py-1 rounded-md animate-pulse">Syncing...</div>` : ''}
+          <div class="w-28 h-28 rounded-[2rem] bg-slate-100 border-4 border-slate-200 shadow-xl flex items-center justify-center overflow-hidden mb-6 transform group-hover:-translate-y-2 group-hover:shadow-2xl transition duration-300">
             ${e.photo ? `<img src="${e.photo}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=User&background=eef2ff&color=4f46e5&size=150';" class="w-full h-full object-cover">` : `<i class="fas fa-user text-slate-400 text-4xl"></i>`}
           </div>
           <h4 class="font-extrabold text-slate-900 text-xl mb-1.5">${e.name}</h4>
-          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-4 py-1.5 rounded-full mb-6 inline-block shadow-sm">${e.designation}</span>
+          <span class="text-xs font-bold text-sky-600 bg-sky-50 border border-sky-100 px-4 py-1.5 rounded-full mb-6 inline-block shadow-sm">${e.designation}</span>
           <div class="w-full text-left text-sm text-slate-600 space-y-3 mt-auto border-t border-slate-100 pt-5">
-            ${e.phone ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-phone text-blue-500"></i></div> <span class="font-semibold text-slate-700">${e.phone}</span></p>` : ''}
-            ${e.email ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition truncate" title="${e.email}"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-envelope text-indigo-500"></i></div> <span class="font-medium truncate">${e.email}</span></p>` : ''}
+            ${e.phone ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-phone text-sky-500"></i></div> <span class="font-semibold text-slate-700">${e.phone}</span></p>` : ''}
+            ${e.email ? `<p class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 hover:border-slate-200 transition truncate" title="${e.email}"><div class="w-8 h-8 rounded-lg bg-white shadow-sm border border-slate-100 flex items-center justify-center shrink-0"><i class="fas fa-envelope text-sky-500"></i></div> <span class="font-medium truncate">${e.email}</span></p>` : ''}
           </div>
           ${getAdminActions('Employees', e.id)}
         </div>`).join('');
     }
 
+    // --- RECURSIVE UNLIMITED FOLDER TREE RENDERER ---
     function renderDocuments() {
       const el = document.getElementById('documentsContainer');
       const docs = state.data.documents;
       
       if (!docs.length) {
         if(isFetchingData) return el.innerHTML = Array(2).fill(`<div class="card p-6 h-32 bg-slate-200 animate-pulse rounded-3xl border-0 shadow-sm mb-4"></div>`).join('');
-        return el.innerHTML = `<div class="py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-folder-open text-5xl text-amber-200 mb-4"></i><p class="text-slate-500 font-medium text-lg">No documents found.</p></div>`;
+        return el.innerHTML = `<div class="py-16 text-center bg-white rounded-3xl border border-slate-200 border-dashed shadow-sm"><i class="fas fa-folder-open text-5xl text-amber-500/30 mb-4"></i><p class="text-slate-500 font-medium text-lg">No documents found.</p></div>`;
       }
       
       const root = { name: 'Root', files: [], children: {}, path: '' };
@@ -975,10 +1196,15 @@
           const child = node.children[childName];
           const fId = `folder-${folderIndex++}`;
           
+          // Collapse State Logic Fix
+          const isExpanded = state.expandedFolders.has(child.path);
+          const displayClass = isExpanded ? '' : 'hidden';
+          const iconClass = isExpanded ? 'fa-chevron-up' : 'fa-chevron-down';
+          
           html += `<div class="relative w-full mb-3">`;
 
           html += `
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-slate-200/60 p-3 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] hover:border-indigo-300 hover:shadow-md cursor-pointer transition-all duration-300 group gap-3 relative z-10" onclick="toggleFolder('${fId}', 'icon-${fId}')">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-slate-200/60 p-3 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] hover:border-sky-300 hover:shadow-md cursor-pointer transition-all duration-300 group gap-3 relative z-10" onclick="toggleFolder('${fId}', 'icon-${fId}', '${child.path}')">
               <div class="flex items-center gap-3.5">
                 <div class="w-10 h-10 bg-[#fff8e6] rounded-xl flex items-center justify-center shrink-0">
                   <i class="fas fa-folder text-[#ffb020] text-xl"></i>
@@ -990,14 +1216,14 @@
                   <div class="flex gap-1 mr-2 transition-opacity">
                      <button onclick="promptCreateFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center transition" title="Add Sub-folder Here"><i class="fas fa-folder-plus"></i></button>
                      <button onclick="promptUpload('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 flex items-center justify-center transition" title="Upload File Here"><i class="fas fa-cloud-upload-alt"></i></button>
-                     <button onclick="promptEditFolder('${child.path}', '${child.name}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition" title="Rename Folder"><i class="fas fa-pen"></i></button>
+                     <button onclick="promptEditFolder('${child.path}', '${child.name}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 flex items-center justify-center transition" title="Rename Folder"><i class="fas fa-pen"></i></button>
                      <button onclick="confirmDeleteFolder('${child.path}'); event.stopPropagation();" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center transition" title="Delete Folder"><i class="fas fa-trash"></i></button>
                   </div>
                 ` : ''}
-                <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors"><i id="icon-${fId}" class="fas fa-chevron-up text-slate-400 text-xs"></i></div>
+                <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 group-hover:bg-sky-50 group-hover:text-sky-500 transition-colors"><i id="icon-${fId}" class="fas ${iconClass} text-slate-400 text-xs"></i></div>
               </div>
             </div>
-            <div id="${fId}" class="mt-3 ml-5 pl-5 sm:ml-8 sm:pl-8 border-l-2 border-slate-200/80 transition-all duration-300 relative">
+            <div id="${fId}" class="mt-3 ml-5 pl-5 sm:ml-8 sm:pl-8 border-l-2 border-slate-200/80 transition-all duration-300 relative ${displayClass}">
               ${buildHtml(child, depth + 1)}
             </div>
           </div>`;
@@ -1008,8 +1234,8 @@
           html += `<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-4 mt-1">`;
           validFiles.forEach(f => {
             html += `
-              <div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-indigo-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("ID_temp_") ? 'opacity-50' : ''}">
-                <a href="${f.url}" target="_blank" class="text-[13px] font-semibold text-slate-700 hover:text-indigo-700 truncate flex-1 flex items-center gap-3">
+              <div class="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition-all duration-300 group relative ${String(f.id).startsWith("ID_temp_") ? 'opacity-50' : ''}">
+                <a href="${f.url}" target="_blank" class="text-[13px] font-semibold text-slate-700 hover:text-sky-600 truncate flex-1 flex items-center gap-3">
                   <div class="p-2 bg-red-50 rounded-lg shrink-0"><i class="fas fa-file-pdf text-red-500 text-base"></i></div>
                   <span class="truncate">${f.fileName} ${String(f.id).startsWith("ID_temp_") ? '<span class="text-[9px] bg-amber-200 text-amber-800 px-1 ml-1 rounded uppercase">Syncing</span>' : ''}</span>
                 </a>
@@ -1031,20 +1257,72 @@
       el.innerHTML = finalHtml;
     }
 
-    function switchTab(tab) {
+    function switchTab(tab, executeClose = true) {
       document.querySelectorAll('.tab-content').forEach(e => {
         e.classList.add('hidden'); e.classList.remove('opacity-100');
       });
-      document.querySelectorAll('.menu-item').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(btn => btn.classList.remove('active'));
       
       const target = document.getElementById(`${tab}Section`);
-      target.classList.remove('hidden');
-      setTimeout(() => target.classList.add('opacity-100'), 50);
-      document.getElementById(`tab-${tab}`).classList.add('active');
+      if(target) {
+        target.classList.remove('hidden');
+        setTimeout(() => target.classList.add('opacity-100'), 50);
+      }
+      
+      const tabBtn = document.getElementById(`tab-${tab}`);
+      if(tabBtn) tabBtn.classList.add('active');
 
-      document.getElementById('appSidebar').classList.remove('open');
-      document.getElementById('sidebarOverlay').classList.remove('open');
+      // Keep tab active on reload
+      sessionStorage.setItem('activeAsmTab', tab);
+
+      if(executeClose) {
+        document.getElementById('navLinks').classList.remove('active');
+        document.getElementById('menuBtn').classList.remove('active');
+      }
     }
+
+    // --- TEXT SLIDER LOGIC ---
+    let textSlideIndex = 0;
+    const textSlides = document.querySelectorAll('.text-slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function showTextSlide(index) {
+        if (index >= textSlides.length) textSlideIndex = 0;
+        else if (index < 0) textSlideIndex = textSlides.length - 1;
+        else textSlideIndex = index;
+
+        textSlides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            dots[i].classList.remove('active');
+        });
+
+        textSlides[textSlideIndex].classList.add('active');
+        dots[textSlideIndex].classList.add('active');
+    }
+    function nextTextSlide() { showTextSlide(textSlideIndex + 1); }
+    function prevTextSlide() { showTextSlide(textSlideIndex - 1); }
+    function currentTextSlide(index) { showTextSlide(index); }
+
+    // --- PHOTO SLIDER LOGIC ---
+    let heroPhotoIndex = 0;
+    const heroPhotos = document.querySelectorAll('.photo-slide');
+
+    function showHeroPhoto(index) {
+        if (index >= heroPhotos.length) heroPhotoIndex = 0;
+        else if (index < 0) heroPhotoIndex = heroPhotos.length - 1;
+        else heroPhotoIndex = index;
+
+        heroPhotos.forEach((photo) => photo.classList.remove('active'));
+        heroPhotos[heroPhotoIndex].classList.add('active');
+    }
+    function nextHeroPhoto() { showHeroPhoto(heroPhotoIndex + 1); }
+    function prevHeroPhoto() { showHeroPhoto(heroPhotoIndex - 1); }
+
+    // Auto Slide
+    setInterval(() => {
+        nextTextSlide();
+        nextHeroPhoto();
+    }, 6000);
 
     initApp();
   </script>
